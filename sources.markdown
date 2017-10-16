@@ -1,4 +1,5 @@
-# Sources
+ Sources
+ =======
 
 * [schema](https://i.stack.imgur.com/ZK60L.png)
 
@@ -15,8 +16,3 @@
 
 * [RFP30N06LE](https://www.sparkfun.com/datasheets/Components/General/RFP30N06LE.pdf)
 
-Relé | Tranzistor
------|-----------
-Nepříjemný hluk | Tichý
-Pomalejší spínání | Rychlejší spínání
-Vhodné i pro spínání střídavého porudu | Nevhodné pro spínání střídavého proudu
