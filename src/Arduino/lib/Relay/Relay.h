@@ -23,6 +23,6 @@ public:
   void off();
 private:
   int m_pin; //číslo pinu pro ovládání relé  
-}
+};
 
 #endif
