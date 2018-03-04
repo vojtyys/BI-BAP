@@ -14,28 +14,31 @@ Led::Led(int pin) {
 }
 
 //------------------------------------------------------------------------------
-Led::on() {
+void Led::on() {
   digitalWrite(m_pin, HIGH);  //zapnutí LED
+  m_currIntensity = 255;      //intenzita je maximální
 }
 
 //------------------------------------------------------------------------------
-Led::off() {
+void Led::off() {
   digitalWrite(m_pin, LOW);  //vypnutí LED
+  m_currIntensity = 0;       //intenzita je nulová
 }
 
 //------------------------------------------------------------------------------
-Led::setDim(byte intensity) {  //pokud se změní hodnota stmívání, je intenzita osvětlení plynule upravena na novou úroveň
-  if (intesity < m_currIntensity) {
-    for (byte i = m_currIntensity; i < intensity; ++i){
+void Led::setDim(byte intensity) {  //pokud se změní hodnota stmívání, je intenzita osvětlení plynule upravena na novou úroveň
+  if (intensity < m_currIntensity) {
+    for (byte i = m_currIntensity; i > intensity; --i){
       analogWrite(m_pin, i);
       delay(C_DIM_DELAY);      //zpoždění kvůli plynulosti
     }
     m_currIntensity = intensity;
   } else if (intensity > m_currIntensity) {
-    for (byte i = m_currIntensity; i > intensity; --i){
+    for (byte i = m_currIntensity; i < intensity; ++i){
       analogWrite(m_pin, i);
       delay(C_DIM_DELAY);
     }
     m_currIntensity = intensity;
-//==============================================================================
+  }
 }
+//==============================================================================
