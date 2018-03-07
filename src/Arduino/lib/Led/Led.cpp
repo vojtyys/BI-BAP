@@ -28,13 +28,13 @@ void Led::off() {
 //------------------------------------------------------------------------------
 void Led::setDim(byte intensity) {  //pokud se změní hodnota stmívání, je intenzita osvětlení plynule upravena na novou úroveň
   if (intensity < m_currIntensity) {
-    for (byte i = m_currIntensity; i > intensity; --i){
+    for (int i = m_currIntensity; i >= intensity; --i){
       analogWrite(m_pin, i);
       delay(C_DIM_DELAY);      //zpoždění kvůli plynulosti
     }
     m_currIntensity = intensity;
   } else if (intensity > m_currIntensity) {
-    for (byte i = m_currIntensity; i < intensity; ++i){
+    for (int i = m_currIntensity; i < intensity; ++i){
       analogWrite(m_pin, i);
       delay(C_DIM_DELAY);
     }

@@ -10,7 +10,7 @@
 /** Zpoždení v ms po jednotlivých krocích stmívání.
  *  Čím je hodnota vyšší, tí déle bude trvat přechod mezi intenzitami osvětlení při volání metody setDim.
  */
-#define C_DIM_DELAY 100 
+#define C_DIM_DELAY 50 
 
 /** Třída sloužící k ovládání stmívání LED.
  */
