@@ -1,0 +1,3 @@
+StepMotor	KEYWORD1
+moveAngle	KEYWORD2
+moveRotation	KEYWORD2
