@@ -47,6 +47,7 @@ private:
   int m_pin3;
   int m_pin4;
   
+  //metody související s vykonáním kroku motoru
   void step1();
   void step2();
   void step3();
