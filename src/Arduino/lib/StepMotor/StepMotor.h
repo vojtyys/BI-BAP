@@ -46,6 +46,17 @@ private:
   int m_pin2;
   int m_pin3;
   int m_pin4;
+  
+  void step1();
+  void step2();
+  void step3();
+  void step4();
+  void step5();
+  void step6();
+  void step7();
+  void step8();
+  void move();
+  void moveOpposite();
 
 };
 

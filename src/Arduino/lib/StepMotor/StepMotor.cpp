@@ -12,28 +12,15 @@
 #include "StepMotor.h"
 //Kód byl převzat a upraven z http://navody.arduino-shop.cz/navody-k-produktum/krokovy-motor-a-driver.html
 //==============================================================================
-
-void step1();
-void step2();
-void step3();
-void step4();
-void step5();
-void step6();
-void step7();
-void step8();
-void move();
-void moveOpposite();
-
-//------------------------------------------------------------------------------
 StepMotor::StepMotor(int pin1,
                      int pin2,
 										 int pin3,
 										 int pin4)
 {
   m_pin1 = pin1;
-  m_pin1 = pin2;
-  m_pin1 = pin3;
-  m_pin1 = pin4;
+  m_pin2 = pin2;
+  m_pin3 = pin3;
+  m_pin4 = pin4;
   
   pinMode(m_pin1, OUTPUT);
   pinMode(m_pin2, OUTPUT);
@@ -70,57 +57,57 @@ void StepMotor::moveRotation(int nRotation)
 }
 
 //------------------------------------------------------------------------------
-//sekvence příkazů dané výrobcem pro provdení jednoho kroku
-void step1(){
+//sekvence příkazů dané výrobcem pro provedení jednoho kroku
+void StepMotor::step1(){
   digitalWrite(m_pin1, HIGH);
   digitalWrite(m_pin2, LOW);
   digitalWrite(m_pin3, LOW);
   digitalWrite(m_pin4, LOW);
   delay(SPEED);
 }
-void step2(){
+void StepMotor::step2(){
   digitalWrite(m_pin1, HIGH);
   digitalWrite(m_pin2, HIGH);
   digitalWrite(m_pin3, LOW);
   digitalWrite(m_pin4, LOW);
   delay(SPEED);
 }
-void step3(){
+void StepMotor::step3(){
   digitalWrite(m_pin1, LOW);
   digitalWrite(m_pin2, HIGH);
   digitalWrite(m_pin3, LOW);
   digitalWrite(m_pin4, LOW);
   delay(SPEED);
 }
-void step4(){
+void StepMotor::step4(){
   digitalWrite(m_pin1, LOW);
   digitalWrite(m_pin2, HIGH);
   digitalWrite(m_pin3, HIGH);
   digitalWrite(m_pin4, LOW);
   delay(SPEED);
 }
-void step5(){
+void StepMotor::step5(){
   digitalWrite(m_pin1, LOW);
   digitalWrite(m_pin2, LOW);
   digitalWrite(m_pin3, HIGH);
   digitalWrite(m_pin4, LOW);
   delay(SPEED);
 }
-void step6(){
+void StepMotor::step6(){
   digitalWrite(m_pin1, LOW);
   digitalWrite(m_pin2, LOW);
   digitalWrite(m_pin3, HIGH);
   digitalWrite(m_pin4, HIGH);
   delay(SPEED);
 }
-void step7(){
+void StepMotor::step7(){
   digitalWrite(m_pin1, LOW);
   digitalWrite(m_pin2, LOW);
   digitalWrite(m_pin3, LOW);
   digitalWrite(m_pin4, HIGH);
   delay(SPEED);
 }
-void step8(){
+void StepMotor::step8(){
   digitalWrite(m_pin1, HIGH);
   digitalWrite(m_pin2, LOW);
   digitalWrite(m_pin3, LOW);
@@ -130,27 +117,27 @@ void step8(){
 
 //------------------------------------------------------------------------------
 //sekvence příkazů pro krok motoru
-void move() {
-  step1();
-  step2();
-  step3();
-  step4();
-  step5();
-  step6();
-  step7();
-  step8();
+void StepMotor::move() {
+  StepMotor::step1();
+  StepMotor::step2();
+  StepMotor::step3();
+  StepMotor::step4();
+  StepMotor::step5();
+  StepMotor::step6();
+  StepMotor::step7();
+  StepMotor::step8();
 }
 
 //------------------------------------------------------------------------------
 //sekvence příkazů pro krok motoru na opačnou stranu
-void moveOposit() {
-  step8();
-  step7();
-  step6();
-  step5();
-  step4();
-  step3();
-  step2();
-  step1();
+void StepMotor::moveOpposite() {
+  StepMotor::step8();
+  StepMotor::step7();
+  StepMotor::step6();
+  StepMotor::step5();
+  StepMotor::step4();
+  StepMotor::step3();
+  StepMotor::step2();
+  StepMotor::step1();
 }
 //==============================================================================
