@@ -41,17 +41,29 @@ ser.write(data)
 ser.flush()
 GPIO.output(12, GPIO.LOW)
 
-data = ser.read(7)
-print('Got: ')
-print(data)
-if (len(data) < 7):
-    print('Incorrect ACK')
-    print(data)
-else:
-    if(checkCrc(data) == False):
-        print('Incorrect CRC')
+cnt = 3
+while(cnt > 0):
+    ack = ser.read(7)
+    print('Got: ')
+    print(ack)
+    if (len(ack) < 7):
+        print('Incorrect ACK')
+        GPIO.output(12, GPIO.HIGH)
+        ser.write(data)
+        ser.flush()
+        GPIO.output(12, GPIO.LOW)
+        cnt = cnt - 1
     else:
-        print('ACK OK')
+        if(checkCrc(ack) == False):
+            print('Incorrect CRC')
+            GPIO.output(12, GPIO.HIGH)
+            ser.write(data)
+            ser.flush()
+            GPIO.output(12, GPIO.LOW)
+            cnt = cnt - 1
+        else:
+            print('ACK OK')
+            break
 
 ser.close()
 print('\nTerminating program...\n')
