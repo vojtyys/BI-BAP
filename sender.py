@@ -29,7 +29,7 @@ def checkCrc(data):
         return True
     return False
 	
-tmp = bytes.fromhex('01 05 12 80 f0')
+tmp = bytes.fromhex('01 00 12 80 f0')
 crc = crc16(tmp)
 crc = str(hex(crc)).lstrip('0x')
 if (len(crc) != 4):
