@@ -42,8 +42,8 @@ ser.write(data)
 ser.flush()
 GPIO.output(12, GPIO.LOW)
 
-cnt = 3
-while(cnt > 0):
+
+while(True):
     ack = ser.read(7)
     print('Got: ')
     print(ack)
@@ -52,8 +52,7 @@ while(cnt > 0):
         GPIO.output(12, GPIO.HIGH)
         ser.write(data)
         ser.flush()
-        GPIO.output(12, GPIO.LOW)
-        cnt = cnt - 1
+        GPIO.output(12, GPIO.LOW)   
     else:
         if(checkCrc(ack) == False):
             print('Incorrect CRC')
@@ -61,7 +60,6 @@ while(cnt > 0):
             ser.write(data)
             ser.flush()
             GPIO.output(12, GPIO.LOW)
-            cnt = cnt - 1
         else:
             print('ACK OK')
             break
