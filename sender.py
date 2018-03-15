@@ -28,41 +28,54 @@ def checkCrc(data):
     if (tmp == crc):
         return True
     return False
+
+class Device:
+	def __init__(self, addr):
+		self.__cnt = 0
+		self.__addr = addr
+	def sendCmd(cmd):
+		data = bytes.fromhex(cmd)
+		crc = crc16(data)
+		crc = str(hex(crc)).lstrip('0x')
+		if (len(crc) != 4):
+			crc = '0' + crc
+		data = bytes(data + bytes.fromhex(crc))
+		print("Sending cmd: ", end=' ')
+		print(data)
+		GPIO.output(12, GPIO.HIGH)
+		ser.write(data)
+		ser.flush()
+		GPIO.output(12, GPIO.LOW)
+		while(True):
+			print('Waiting for ACK')
+			ack = ser.read(7)
+			print('Got: ', end='')
+			print(ack)
+			if (len(ack) < 7):
+				print('Incorrect CMD len, resending CMD')
+				GPIO.output(12, GPIO.HIGH)
+				ser.write(data)
+				ser.flush()
+				GPIO.output(12, GPIO.LOW)   
+			else:
+				if(checkCrc(ack) == False):
+					print('Incorrect CRC, resending CMD')
+					GPIO.output(12, GPIO.HIGH)
+					ser.write(data)
+					ser.flush()
+					GPIO.output(12, GPIO.LOW)
+				else:
+					print('ACK OK')
+					break
+
+
+
 	
-tmp = bytes.fromhex('01 00 12 80 f0')
-crc = crc16(tmp)
-crc = str(hex(crc)).lstrip('0x')
-if (len(crc) != 4):
-    crc = '0' + crc;
-data = bytes(tmp + bytes.fromhex(crc))
-#data = bytes(tmp + bytes.fromhex('00ff'))
-print(data)
-GPIO.output(12, GPIO.HIGH)
-ser.write(data)
-ser.flush()
-GPIO.output(12, GPIO.LOW)
 
 
-while(True):
-    ack = ser.read(7)
-    print('Got: ')
-    print(ack)
-    if (len(ack) < 7):
-        print('Incorrect ACK')
-        GPIO.output(12, GPIO.HIGH)
-        ser.write(data)
-        ser.flush()
-        GPIO.output(12, GPIO.LOW)   
-    else:
-        if(checkCrc(ack) == False):
-            print('Incorrect CRC')
-            GPIO.output(12, GPIO.HIGH)
-            ser.write(data)
-            ser.flush()
-            GPIO.output(12, GPIO.LOW)
-        else:
-            print('ACK OK')
-            break
+
+Device mega(1)#todo addres integration
+mega.sendCmd('01 00 05 00 00')
 
 ser.close()
 print('\nTerminating program...\n')
