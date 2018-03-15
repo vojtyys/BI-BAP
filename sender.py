@@ -24,7 +24,7 @@ def checkCrc(data):
     crc = bytes.fromhex(crc)
     tmp = data[5:]
 #  print(tmp)
-    print(crc)
+#    print(crc)
     if (tmp == crc):
         return True
     return False
@@ -33,7 +33,7 @@ class Device:
 	def __init__(self, addr):
 		self.__cnt = 0
 		self.__addr = addr
-	def sendCmd(cmd):
+	def sendCmd(self,cmd):
 		data = bytes.fromhex(cmd)
 		crc = crc16(data)
 		crc = str(hex(crc)).lstrip('0x')
@@ -74,7 +74,7 @@ class Device:
 
 
 
-Device mega(1)#todo addres integration
+mega = Device(1)
 mega.sendCmd('01 00 05 00 00')
 
 ser.close()
