@@ -34,7 +34,17 @@ class Device:
 		self.__cnt = 0
 		self.__addr = addr
 	def sendCmd(self,cmd):
-		data = bytes.fromhex(cmd)
+		tmp = str(hex(self.__addr)).lstrip('0x')
+		if (len(tmp) ==1):
+			tmp = '0' + tmp
+		data = bytes.fromhex(tmp)
+		
+		tmp = str(hex(self.__cnt)).lstrip('0x')
+		if (len(tmp) == 1):
+			tmp = '0' + tmp
+		data = bytes(data + bytes.fromhex(tmp))
+		
+		data = bytes(data + bytes.fromhex(cmd))
 		crc = crc16(data)
 		crc = str(hex(crc)).lstrip('0x')
 		if (len(crc) != 4):
@@ -66,6 +76,7 @@ class Device:
 					GPIO.output(12, GPIO.LOW)
 				else:
 					print('ACK OK')
+					self.__cnt = self.__cnt + 1
 					break
 
 
@@ -75,7 +86,7 @@ class Device:
 
 
 mega = Device(1)
-mega.sendCmd('01 00 05 00 00')
+mega.sendCmd('05 00 00')
 
 ser.close()
 print('\nTerminating program...\n')
