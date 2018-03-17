@@ -89,7 +89,10 @@ class Device:
 
 
 mega = Device(1)
-mega.sendCmd('05 00 00')
+
+while(True):
+    mega.sendCmd('05 00 00')
+    time.sleep(1)
 
 ser.close()
 print('\nTerminating program...\n')
