@@ -17,18 +17,30 @@ ser.timeout = 1
 cmdCnt = 0x0
 crc16 = crcmod.mkCrcFun(0x11021, 0xffff, False, 0x0000)
 
+def getCrc(data):
+	crc = crc16(data)
+	crc = str(hex(crc)).lstrip('0x')
+	
+	if (len(crc) == 0):
+		crc = '0000'
+	elsif (len(crc) == 1):
+		crc = '000' + crc	
+	elsif (len(crc) == 2):
+		crc = '00' + crc
+	elsif (len(crc) == 3):
+		crc = '0' + crc
+		
+	crc = bytes.fromhex(crc)
+	return crc
+
+
 def checkCrc(data):
-    crc = crc16(data[0:5])
-    crc = str(hex(crc)).lstrip('0x')
-    if (len(crc) != 4):
-        crc = '0' + crc
-    crc = bytes.fromhex(crc)
-    tmp = data[5:]
-#  print(tmp)
-#    print(crc)
-    if (tmp == crc):
-        return True
-    return False
+	crc = getCrc(data[0:5])
+	tmp = data[5:]
+	if (tmp == crc):
+		return True
+	return False
+
 
 class Device:
 	def __init__(self, addr):
@@ -49,12 +61,9 @@ class Device:
 			data = bytes(data + bytes.fromhex(tmp))
 		
 		data = bytes(data + bytes.fromhex(cmd))
-		crc = crc16(data)
-		crc = str(hex(crc)).lstrip('0x')
-		if (len(crc) != 4):
-			crc = '0' + crc
+		crc = getCrc(data)
 		data = bytes(data + bytes.fromhex(crc))
-		print("Sending cmd: ", end=' ')
+		print("Sending cmd: ", end='')
 		print(data)
 		GPIO.output(12, GPIO.HIGH)
 		ser.write(data)
@@ -82,11 +91,6 @@ class Device:
 					print('ACK OK')
 					self.__cnt = (self.__cnt + 1) % 256
 					break
-
-
-
-	
-
 
 
 mega = Device(1)
