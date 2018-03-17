@@ -62,7 +62,7 @@ class Device:
 		
 		data = bytes(data + bytes.fromhex(cmd))
 		crc = getCrc(data)
-		data = bytes(data + bytes.fromhex(crc))
+		data = bytes(data + crc)
 		print("Sending cmd: ", end='')
 		print(data)
 		GPIO.output(12, GPIO.HIGH)
