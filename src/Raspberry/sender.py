@@ -23,11 +23,11 @@ def getCrc(data):
 	
 	if (len(crc) == 0):
 		crc = '0000'
-	elsif (len(crc) == 1):
+	elif (len(crc) == 1):
 		crc = '000' + crc	
-	elsif (len(crc) == 2):
+	elif (len(crc) == 2):
 		crc = '00' + crc
-	elsif (len(crc) == 3):
+	elif (len(crc) == 3):
 		crc = '0' + crc
 		
 	crc = bytes.fromhex(crc)
