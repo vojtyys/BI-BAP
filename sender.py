@@ -39,10 +39,13 @@ class Device:
 			tmp = '0' + tmp
 		data = bytes.fromhex(tmp)
 		
-		tmp = str(hex(self.__cnt)).lstrip('0x')
-		if (len(tmp) == 1):
-			tmp = '0' + tmp
-		data = bytes(data + bytes.fromhex(tmp))
+		if(self.__cnt == 0):
+			data = bytes(data + bytes.fromhex('00'))
+		else:
+			tmp = str(hex(self.__cnt)).lstrip('0x')
+			if (len(tmp) == 1):
+				tmp = '0' + tmp
+			data = bytes(data + bytes.fromhex(tmp))
 		
 		data = bytes(data + bytes.fromhex(cmd))
 		crc = crc16(data)
