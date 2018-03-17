@@ -79,7 +79,7 @@ class Device:
 					GPIO.output(12, GPIO.LOW)
 				else:
 					print('ACK OK')
-					self.__cnt = self.__cnt + 1
+					self.__cnt = (self.__cnt + 1) % 256
 					break
 
 
@@ -92,7 +92,7 @@ mega = Device(1)
 
 while(True):
     mega.sendCmd('05 00 00')
-    time.sleep(1)
+    time.sleep(0.5)
 
 ser.close()
 print('\nTerminating program...\n')
