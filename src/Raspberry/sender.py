@@ -27,10 +27,6 @@ class RS485:
 		data = ser.read(cnt)
 		return data
 
-ser = serial.Serial('/dev/ttyS0')
-ser.baudrate = 9600
-ser.timeout = 1
-
 
 crc16 = crcmod.mkCrcFun(0x11021, 0xffff, False, 0x0000)
 
