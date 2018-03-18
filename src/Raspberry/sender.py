@@ -5,21 +5,21 @@ import serial
 import RPi.GPIO as GPIO
 import crcmod
 
-cmds = {'light' : {'cmd' : 0,
-		   'on'  : 0,
-		   'off' : 1,
-		   'dimlevel' : 2},
+cmds = {'light' : {'cmd' : '00',
+		   'on'  : '00',
+		   'off' : '01',
+		   'dimlevel' : '02'},
 	
-       	'socket' : {'cmd' : 1,
-		    'on'  : 0,
-		    'off' : 1},
+       	'socket' : {'cmd' : '01',
+		    'on'  : '00',
+		    'off' : '01'},
 	
-	'boiler' : {'cmd' : 2,
-		    'temp' : 0},
+	'boiler' : {'cmd' : '02',
+		    'temp' : '00'},
 	
-	'window' : {'cmd' : 3,
-		    'open' : 0,
-		    'close' : 1}
+	'window' : {'cmd' : '03',
+		    'open' : '00',
+		    'close' : '01'}
        }
 
 GPIO.setmode(GPIO.BOARD)
@@ -81,7 +81,7 @@ class Device:
 		self.__addr = addr
 		self.__ser = RS485(12, 9600, 3)
 		
-	def sendCmd(self,cmd):
+	def sendCmd(self,cmd, param1, param2=None):
 		tmp = str(hex(self.__addr)).lstrip('0x')
 		if (len(tmp) ==1):
 			tmp = '0' + tmp
@@ -94,8 +94,10 @@ class Device:
 			if (len(tmp) == 1):
 				tmp = '0' + tmp
 			data = bytes(data + bytes.fromhex(tmp))
-		
-		data = bytes(data + bytes.fromhex(cmd))
+		tmpCmd = bytes.fromhex(cmds[cmd]['cmd'])
+		tmpParam1 = bytes.fromhex(cmds[cmd][param1])
+		tmpParam2 = bytes.fromhex('00')
+		data = bytes(data + tmpCmd + tmpParam1 + tmpParam2)
 		crc = getCrc(data)
 		data = bytes(data + crc)
 		print("Sending cmd: ", end='')
@@ -120,11 +122,10 @@ class Device:
 
 
 mega = Device(1)
-try:
-	while(True):
-		mega.sendCmd('05 00 00')
-		time.sleep(0.5)
-except KeyboardInterrupt:
-	print('\nTerminating program...\n')
-	GPIO.cleanup()
-	exit(0)
+
+	
+mega.sendCmd('led', 'on')
+
+print('\nTerminating program...\n')
+GPIO.cleanup()
+exit(0)
