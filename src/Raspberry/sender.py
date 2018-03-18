@@ -64,7 +64,7 @@ class Device:
 	def __init__(self, addr):
 		self.__cnt = 0
 		self.__addr = addr
-		self.ser = RS485(12, 9600, 3)
+		self.__ser = RS485(12, 9600, 3)
 	def sendCmd(self,cmd):
 		tmp = str(hex(self.__addr)).lstrip('0x')
 		if (len(tmp) ==1):
