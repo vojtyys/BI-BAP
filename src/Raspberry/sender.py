@@ -10,13 +10,31 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(12, GPIO.OUT)
 GPIO.output(12, GPIO.LOW)
 
+class RS485:
+	def __init__(self, OEPin, baudrate, timeout):
+		self.__ser = serial.Serial('/dev/ttyS0')
+		self.__ser.baudrate = baudrate
+		self.__ser.timeout = timeout
+		self.__OE = OEPin
+	
+	def sendData(self, data):
+		GPIO.output(self.__OE, GPIO.HIGH)
+		ser.write(data)
+		ser.flush()
+		GPIO.output(self.__OE, GPIO.LOW)
+		
+	def getData(self, cnt):
+		data = ser.read(cnt)
+		return data
+
 ser = serial.Serial('/dev/ttyS0')
 ser.baudrate = 9600
 ser.timeout = 1
 
-cmdCnt = 0x0
+
 crc16 = crcmod.mkCrcFun(0x11021, 0xffff, False, 0x0000)
 
+	
 def getCrc(data):
 	crc = crc16(data)
 	crc = str(hex(crc)).lstrip('0x')
@@ -46,6 +64,7 @@ class Device:
 	def __init__(self, addr):
 		self.__cnt = 0
 		self.__addr = addr
+		self.ser = RS485(12, 9600, 3)
 	def sendCmd(self,cmd):
 		tmp = str(hex(self.__addr)).lstrip('0x')
 		if (len(tmp) ==1):
@@ -65,28 +84,19 @@ class Device:
 		data = bytes(data + crc)
 		print("Sending cmd: ", end='')
 		print(data)
-		GPIO.output(12, GPIO.HIGH)
-		ser.write(data)
-		ser.flush()
-		GPIO.output(12, GPIO.LOW)
+		self.__ser.sendData(data)
 		while(True):
 			print('Waiting for ACK')
-			ack = ser.read(7)
+			ack = self.__ser.getData(7)
 			print('Got: ', end='')
 			print(ack)
 			if (len(ack) < 7):
 				print('Incorrect CMD len, resending CMD')
-				GPIO.output(12, GPIO.HIGH)
-				ser.write(data)
-				ser.flush()
-				GPIO.output(12, GPIO.LOW)   
+				self.__ser.sendData(data)
 			else:
 				if(checkCrc(ack) == False):
 					print('Incorrect CRC, resending CMD')
-					GPIO.output(12, GPIO.HIGH)
-					ser.write(data)
-					ser.flush()
-					GPIO.output(12, GPIO.LOW)
+					self.__ser.sendData(data)
 				else:
 					print('ACK OK')
 					self.__cnt = (self.__cnt + 1) % 256
