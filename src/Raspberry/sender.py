@@ -100,12 +100,12 @@ class Device:
 
 
 mega = Device(1)
-
-while(True):
-    mega.sendCmd('05 00 00')
-    time.sleep(0.5)
-
-ser.close()
-print('\nTerminating program...\n')
-GPIO.cleanup()
-exit(0)
+try:
+	while(True):
+		mega.sendCmd('05 00 00')
+		time.sleep(0.5)
+except KeyboardInterrupt:
+	ser.close()
+	print('\nTerminating program...\n')
+	GPIO.cleanup()
+	exit(0)
