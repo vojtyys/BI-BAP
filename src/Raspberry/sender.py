@@ -19,12 +19,12 @@ class RS485:
 	
 	def sendData(self, data):
 		GPIO.output(self.__OE, GPIO.HIGH)
-		ser.write(data)
-		ser.flush()
+		self.__ser.write(data)
+		self.__ser.flush()
 		GPIO.output(self.__OE, GPIO.LOW)
 		
 	def getData(self, cnt):
-		data = ser.read(cnt)
+		data = self.__ser.read(cnt)
 		return data
 
 
