@@ -7,11 +7,11 @@ import crcmod
 
 cmds = {'light' : {'cmd' : 0,
 		   'on'  : 0,
-		   'off; : 1,
+		   'off' : 1,
 		   'dimlevel' : 2},
 	
        	'socket' : {'cmd' : 1,
-		    'on;  : 0,
+		    'on'  : 0,
 		    'off' : 1},
 	
 	'boiler' : {'cmd' : 2,
@@ -19,7 +19,7 @@ cmds = {'light' : {'cmd' : 0,
 	
 	'window' : {'cmd' : 3,
 		    'open' : 0,
-		    'close; : 1}
+		    'close' : 1}
        }
 
 GPIO.setmode(GPIO.BOARD)
