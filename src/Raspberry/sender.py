@@ -5,10 +5,21 @@ import serial
 import RPi.GPIO as GPIO
 import crcmod
 
-cmds = {'light' : 0,
-       	'socket' : 1,
-	'boiler' : 2,
-	'window' : 3
+cmds = {'light' : {'cmd' : 0,
+		   'on'  : 0,
+		   'off; : 1,
+		   'dimlevel' : 2},
+	
+       	'socket' : {'cmd' : 1,
+		    'on;  : 0,
+		    'off' : 1},
+	
+	'boiler' : {'cmd' : 2,
+		    'temp' : 0},
+	
+	'window' : {'cmd' : 3,
+		    'open' : 0,
+		    'close; : 1}
        }
 
 GPIO.setmode(GPIO.BOARD)
