@@ -124,7 +124,7 @@ class Device:
 mega = Device(1)
 
 	
-mega.sendCmd('led', 'on')
+mega.sendCmd('light', 'on')
 
 print('\nTerminating program...\n')
 GPIO.cleanup()
