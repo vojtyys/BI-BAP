@@ -19,7 +19,6 @@ class RS485:
 	
 	def __del__(self):
 		self.__ser.close()
-		print('Closing ser')
 	
 	def sendData(self, data):
 		GPIO.output(self.__OE, GPIO.HIGH)
@@ -110,7 +109,6 @@ try:
 		mega.sendCmd('05 00 00')
 		time.sleep(0.5)
 except KeyboardInterrupt:
-	ser.close()
 	print('\nTerminating program...\n')
 	GPIO.cleanup()
 	exit(0)
