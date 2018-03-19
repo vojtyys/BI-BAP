@@ -52,7 +52,7 @@ crc16 = crcmod.mkCrcFun(0x11021, 0xffff, False, 0x0000)
 	
 def getCrc(data):
 	crc = crc16(data)
-	crc crc.to_bytes(2, 'big')
+	crc = crc.to_bytes(2, 'big')
 	return crc
 
 
@@ -85,11 +85,11 @@ class Device:
 			return
 		
 		tmpParam2 = bytes.fromhex('00')
-		data = data + cmds[cmd]['cmd'].to_bytes(1, 'big') + cmds[cmd][param1].to_bytes(1, 'big') + tmpParam2)
+		data = data + cmds[cmd]['cmd'].to_bytes(1, 'big') + cmds[cmd][param1].to_bytes(1, 'big') + tmpParam2
 		crc = getCrc(data)
 		data = bytes(data + crc)
 		print("Sending cmd: ", end='')
-		print(data.hex())
+		print(data)
 		self.__ser.sendData(data)
 		while(True):
 			print('Waiting for ACK')
@@ -98,7 +98,7 @@ class Device:
 			print(ack)
 			if (len(ack) < 7):
 				print('Incorrect CMD len, sending CMD again: ', end='')
-				print(data.hex())
+				print(data)
 				self.__ser.sendData(data)
 			else:
 				if(checkCrc(ack) == False):
@@ -112,7 +112,7 @@ class Device:
 						break
 					else:
 						print('Incorrect ACK, sending CMD again: ', end='')
-						print(data.hex())
+						print(data)
 						self.__ser.sendData(data)
 
 
