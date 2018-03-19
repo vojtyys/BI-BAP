@@ -106,9 +106,14 @@ class Device:
 					print(data.hex())
 					self.__ser.sendData(data)
 				else:
-					print('ACK OK')
-					self.__cnt = (self.__cnt + 1) % 256
-					break
+					if (ack[:5] == bytes.fromhex('00 00 00 00 00')):
+						print('ACK OK')
+						self.__cnt = (self.__cnt + 1) % 256
+						break
+					else:
+						print('Incorrect ACK, sending CMD again: ', end='')
+						print(data.hex())
+						self.__ser.sendData(data)
 
 
 mega = Device(1)
