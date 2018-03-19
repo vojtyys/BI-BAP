@@ -5,21 +5,21 @@ import serial
 import RPi.GPIO as GPIO
 import crcmod
 
-cmds = {'light' : {'cmd' : '00',
-		   'on'  : '00',
-		   'off' : '01',
-		   'dimlevel' : '02'},
+cmds = {'light' : {'cmd' : 0,
+		   'on'  : 0,
+		   'off' : 1,
+		   'dimlevel' : 2},
 	
-       	'socket' : {'cmd' : '01',
-		    'on'  : '00',
-		    'off' : '01'},
+       	'socket' : {'cmd' : 1,
+		    'on'  : 0,
+		    'off' : 1},
 	
-	'boiler' : {'cmd' : '02',
-		    'temp' : '00'},
+	'boiler' : {'cmd' : 2,
+		    'temp' : 0},
 	
-	'window' : {'cmd' : '03',
-		    'open' : '00',
-		    'close' : '01'}
+	'window' : {'cmd' : 3,
+		    'open' : 0,
+		    'close' : 1}
        }
 
 GPIO.setmode(GPIO.BOARD)
@@ -52,18 +52,7 @@ crc16 = crcmod.mkCrcFun(0x11021, 0xffff, False, 0x0000)
 	
 def getCrc(data):
 	crc = crc16(data)
-	crc = str(hex(crc)).lstrip('0x')
-	
-	if (len(crc) == 0):
-		crc = '0000'
-	elif (len(crc) == 1):
-		crc = '000' + crc	
-	elif (len(crc) == 2):
-		crc = '00' + crc
-	elif (len(crc) == 3):
-		crc = '0' + crc
-		
-	crc = bytes.fromhex(crc)
+	crc crc.to_bytes(2, 'big')
 	return crc
 
 
@@ -82,18 +71,11 @@ class Device:
 		self.__ser = RS485(12, 9600, 3)
 		
 	def sendCmd(self,cmd, param1, param2=None):
-		tmp = str(hex(self.__addr)).lstrip('0x')
-		if (len(tmp) ==1):
-			tmp = '0' + tmp
-		data = bytes.fromhex(tmp)
 		
-		if(self.__cnt == 0):
-			data = bytes(data + bytes.fromhex('00'))
-		else:
-			tmp = str(hex(self.__cnt)).lstrip('0x')
-			if (len(tmp) == 1):
-				tmp = '0' + tmp
-			data = bytes(data + bytes.fromhex(tmp))
+		data = self.__addr.to_bytes(1, 'big')
+		
+		data = data + self.__cnt.to_bytes(1, 'big')
+		
 		tmpCmd = bytes.fromhex(cmds[cmd]['cmd'])
 		tmpParam1 = bytes.fromhex(cmds[cmd][param1])
 		tmpParam2 = bytes.fromhex('00')
