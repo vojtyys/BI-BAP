@@ -76,14 +76,20 @@ class Device:
 		
 		data = data + self.__cnt.to_bytes(1, 'big')
 		
-		tmpCmd = bytes.fromhex(cmds[cmd]['cmd'])
-		tmpParam1 = bytes.fromhex(cmds[cmd][param1])
+		if (cmd not in cmds):
+			print('Unknown command')
+			return
+		
+		if (param1 not in cmds[cmd]):
+			print('Unknow function')
+			return
+		
 		tmpParam2 = bytes.fromhex('00')
-		data = bytes(data + tmpCmd + tmpParam1 + tmpParam2)
+		data = data + cmds[cmd]['cmd'].to_bytes(1, 'big') + cmds[cmd][param1].to_bytes(1, 'big') + tmpParam2)
 		crc = getCrc(data)
 		data = bytes(data + crc)
 		print("Sending cmd: ", end='')
-		print(data)
+		print(data.hex())
 		self.__ser.sendData(data)
 		while(True):
 			print('Waiting for ACK')
@@ -91,11 +97,13 @@ class Device:
 			print('Got: ', end='')
 			print(ack)
 			if (len(ack) < 7):
-				print('Incorrect CMD len, resending CMD')
+				print('Incorrect CMD len, sending CMD again: ', end='')
+				print(data.hex())
 				self.__ser.sendData(data)
 			else:
 				if(checkCrc(ack) == False):
-					print('Incorrect CRC, resending CMD')
+					print('Incorrect CRC, sending CMD again: ', end='')
+					print(data.hex())
 					self.__ser.sendData(data)
 				else:
 					print('ACK OK')
