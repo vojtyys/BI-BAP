@@ -91,29 +91,31 @@ class Device:
 		print("Sending cmd: ", end='')
 		print(data)
 		self.__ser.sendData(data)
+		attempts = 10
 		while(True):
-			print('Waiting for ACK')
-			ack = self.__ser.getData(7)
-			print('Got: ', end='')
-			print(ack)
-			if (len(ack) < 7):
-				print('Incorrect CMD len, sending CMD again: ', end='')
-				print(data)
-				self.__ser.sendData(data)
-			else:
-				if(checkCrc(ack) == False):
-					print('Incorrect CRC, sending CMD again: ', end='')
-					print(data.hex())
-					self.__ser.sendData(data)
-				else:
-					if (ack[:5] == bytes.fromhex('00 00 00 00 00')):
-						print('ACK OK')
-						self.__cnt = (self.__cnt + 1) % 256
-						break
-					else:
-						print('Incorrect ACK, sending CMD again: ', end='')
-						print(data)
-						self.__ser.sendData(data)
+                    if(attempts == 0):
+                        print('Error: cannot send CMD: ', end='')
+                        print(cmd)
+                        break
+
+                    expectedAck = bytes.fromhex('00') + self.__cnt.to_bytes(1, 'big') +bytes.fromhex('00 00 00')
+                    expectedAck = expectedAck + getCrc(expectedAck)
+                    print('Waiting for ACK')
+                    ack = self.__ser.getData(7)
+                    print('Got: ', end='')
+                    print(ack)
+                    if (ack != expectedAck):
+                        print('Incorrect ACK len, sending CMD again: ', end='')
+                        print(data)
+                        self.__ser.sendData(data)
+                        attempts = attempts - 1
+                    else:
+                        print('ACK OK')
+                        self.__cnt = (self.__cnt + 1) % 256
+                        break
+				
+	
+		
 
 
 mega = Device(1)
