@@ -32,6 +32,7 @@ class RS485:
 		self.__ser.baudrate = baudrate
 		self.__ser.timeout = timeout
 		self.__OE = OEPin
+		self.__cmds = {}
 	
 	def __del__(self):
 		self.__ser.close()
