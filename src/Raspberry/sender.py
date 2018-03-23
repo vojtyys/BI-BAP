@@ -131,6 +131,15 @@ mega.addCommand('foo')
 
 	
 mega.sendCmd('light', 'on')
+nano = Device(10)
+nano.sendCmd('light', 'on')
+nano.addCommand('light')
+nano.addCommand('foo')
+
+nano.sendCmd('light', 'off')
+for i in range(0, 260):
+    mega.sendCmd('light', 'on')
+    nano.sendCmd('light', 'on')
 
 print('\nTerminating program...\n')
 GPIO.cleanup()
