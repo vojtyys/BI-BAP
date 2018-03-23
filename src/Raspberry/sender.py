@@ -76,16 +76,16 @@ class Device:
 		
 		data = data + self.__cnt.to_bytes(1, 'big')
 		
-		if (cmd not in cmds):
+		if (cmd not in self.__cmds):
 			print('Unknown command')
 			return
 		
-		if (param1 not in cmds[cmd]):
+		if (param1 not in self.__cmds[cmd]):
 			print('Unknow function')
 			return
 		
 		tmpParam2 = bytes.fromhex('00')
-		data = data + cmds[cmd]['cmd'].to_bytes(1, 'big') + cmds[cmd][param1].to_bytes(1, 'big') + tmpParam2
+		data = data + self.__cmds[cmd]['cmd'].to_bytes(1, 'big') + self.__cmds[cmd][param1].to_bytes(1, 'big') + tmpParam2
 		crc = getCrc(data)
 		data = bytes(data + crc)
 		print("Sending cmd: ", end='')
@@ -113,12 +113,20 @@ class Device:
                         print('ACK OK')
                         self.__cnt = (self.__cnt + 1) % 256
                         break
+			
+	def addCommand(self, cmd):
+		if (cmd not in cmds):
+			print('Unknown command')
+			return
+		self.__cmds[cmd] = cmds[cmd]
 				
 	
 		
 
 
 mega = Device(1)
+mega.addCommand('light')
+mega.addCommand('foo')
 
 	
 mega.sendCmd('light', 'on')
