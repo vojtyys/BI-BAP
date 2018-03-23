@@ -127,6 +127,7 @@ class Device:
 
 
 mega = Device(1)
+mega.sendMsg('light')
 mega.addCommand('light')
 mega.addCommand('foo')
 
