@@ -70,7 +70,7 @@ class Device:
 		self.__cmds = {}
 	
 		
-	def sendCmd(self,cmd, param1, param2=None):
+	def sendCmd(self,cmd, param1):
 		
 		data = self.__addr.to_bytes(1, 'big')
 		
