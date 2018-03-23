@@ -33,8 +33,6 @@ class RS485:
 		self.__ser.timeout = timeout
 		self.__OE = OEPin
 		
-	def __del__(self):
-		self.__ser.close()
 	
 	def sendData(self, data):
 		GPIO.output(self.__OE, GPIO.HIGH)
