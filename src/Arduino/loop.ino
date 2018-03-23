@@ -6,8 +6,11 @@
 #define CMDLEN 7
 #define RX 10
 #define TX 11
+
 FastCRC16 CRC16;
+
 uint8_t cnt = 0;
+
 void setup() {
   pinMode(13, OUTPUT);
   digitalWrite(13, LOW);
@@ -67,10 +70,10 @@ void loop() {
         next_state = WAIT;
       } else if (cmd[1] != cnt) {
         //Serial.println("Redundant CMD");
-        sendAck();
+        sendAck(cmd[1]);
         next_state = WAIT;
       } else {
-        sendAck();
+        sendAck(cnt);
         cnt++;
         next_state = RUN;
       }
@@ -87,13 +90,17 @@ void loop() {
   curr_state = next_state;
 }
 
+uint16_t getCRC(byte * cmd, int len) {
+  return CRC16.ccitt(cmd, len);
+}
+
 bool checkCRC(byte cmd[CMDLEN]) {
-  uint8_t buff[CMDLEN - 2];
+  byte buff[CMDLEN - 2];
   for (int i = 0; i < CMDLEN - 2; ++i) {
     buff[i] = cmd[i];
   }
   uint16_t tmp = (cmd[CMDLEN - 2] << 8) | cmd[CMDLEN - 1];
-  if (CRC16.ccitt(buff, sizeof(buff)) != tmp) {
+  if (getCRC(buff, sizeof(buff)) != tmp) {
     return false;
   } else {
     return true;
@@ -101,9 +108,19 @@ bool checkCRC(byte cmd[CMDLEN]) {
 
 }
 
-void sendAck() {
+
+
+void sendAck(uint8_t ackCnt) {
   delay(500);
-  uint8_t ack[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x11, 0x0C }; //ack with CRC
+  uint8_t ack[CMDLEN];
+  ack[0] = 0x00;  //adresa ridici jednotky
+  ack[1] = ackCnt;  //cislo potvrzovaneho ramce
+  ack[2] = 0x00;   //ACK
+  ack[3] = 0x00;
+  ack[4] = 0x00;
+  uint16_t crc = getCRC(ack, 5);
+  ack[5] = (crc & 0xFF00) >> 8;  //pripojeni CRC
+  ack[6] = (crc & 0x00FF);
   digitalWrite(EN, HIGH);
   Serial.write(ack, sizeof(ack));
   Serial.flush();
