@@ -98,7 +98,7 @@ class Device:
                         print(cmd)
                         break
 
-                    expectedAck = bytes.fromhex('00') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00') + self.__addr.to_bytes(1, 'big) + bytes.fromhex('00')
+                    expectedAck = bytes.fromhex('00') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00') + self.__addr.to_bytes(1, 'big') + bytes.fromhex('00')
                     expectedAck = expectedAck + getCrc(expectedAck)
                     print('Waiting for ACK')
                     ack = self.__ser.getData(7)
