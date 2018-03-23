@@ -105,8 +105,8 @@ class Device:
                     print('Got: ', end='')
                     print(ack)
                     if (ack != expectedAck):
-                        print('Incorrect ACK, expected: ' + expectedAck)
-                        print('Sending CMD again: ' + data)
+                        print('Incorrect ACK, expected: ' + str(expectedAck))
+                        print('Sending CMD again: ' + str(data))
                         self.__ser.sendData(data)
                         attempts = attempts - 1
                     else:
