@@ -156,7 +156,7 @@ class Device:
 		self.__cmds[cmd] = cmds[cmd]
 	
 	def __checkAck(self):		
-		expectedAck = bytes.fromhex('00') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00') + self.__addr.to_bytes(1, 'big') + bytes.fromhex('00')	
+		expectedAck = bytes.fromhex('00') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00') + self.__addr.to_bytes(1, 'big') + bytes.fromhex('00 00')	
 		expectedAck = expectedAck + getCrc(expectedAck)
 		
 		print('Waiting for ACK')
