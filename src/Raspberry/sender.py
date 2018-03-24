@@ -47,7 +47,7 @@ cmds = {'light' : {'cmd'        : 1,
 		    
 		    'open'      : {'par'       : False,
 				   'time'      : False,
-				   'cmd        : 0},
+				   'cmd'       : 0},
 		    
 		    'close'     : {'par'       : False,
 				   'time'      : False,
@@ -114,14 +114,14 @@ class Device:
 		
 	def sendCmd(self,dev, func=None, param=None):
 		if (cmd != 'reset'):
-			if (not self.checkCmd(dev, func, param)):                         #TODO
+			if (not self.__checkCmd(dev, func, param)):                         
 				print('Device, function or parameter was not recognized.')
 				return
 	
-			data = self.__addr.to_bytes(1, 'big') + self.__cnt.to_bytes(1, 'big') + self.__cmds[dev]['cmd'].to_bytes(1, 'big') + self.__cmds[dev][func].to_bytes(1, 'big')
-			if (self.__hasParam(dev, func)):                                                    #TODO
-				if (self.__hasTimeParam(dev, func)):                                        #TODO
-					pass#TODO
+			data = self.__addr.to_bytes(1, 'big') + self.__cnt.to_bytes(1, 'big') + self.__cmds[dev]['cmd'].to_bytes(1, 'big') + self.__cmds[dev][func]['cmd'].to_bytes(1, 'big')
+			if (self.__hasParam(dev, func)):                                                    
+				if (self.__hasTimeParam(dev, func)):                                        
+					data = data + bytes.fromhex('00 00')                                   #TODO
 				else:
 					data = data + param.to_bytes(1, 'big') + bytes.fromhex('00')		
 		
@@ -141,7 +141,7 @@ class Device:
                         print(cmd)
                         break
 	
-                    if (not self.__checkAck(self)):      #CHECK CNT pridat
+                    if (not self.__checkAck(self)):     
                         print('Sending CMD again: ' + str(data))
                         self.__ser.sendData(data)
                         attempts = attempts - 1
@@ -169,6 +169,23 @@ class Device:
 		else:
 			print('Incorrect ACK, expected: ' + str(expectedAck))
 			return False
+	
+	def __checkCmd(dev, func, param):
+		if (dev not in self.__cmds):
+			return False
+		if (func not in self.__cmds[dev]):
+			return False
+		if (param == None and self.__cmds[dev][func]['param']):
+			return False
+		if (param != None and not self.__cmds[dev][func]['param']):
+			return False
+		return True
+	
+	def __hasParam(dev, func):
+		return self.__cmds[dev][func]['param']
+	
+	def __hasTimeParam(dev, func):
+		return self.__cmds[dev][func]['time']
 	
 		
 
