@@ -160,7 +160,7 @@ class Device:
 		expectedAck = expectedAck + getCrc(expectedAck)
 		
 		print('Waiting for ACK')
-		ack = self.__ser.getData(7)
+		ack = self.__ser.getData(8)
 		print('Got: ' + str(ack))
 		
 		if (ack == expectedAck):
