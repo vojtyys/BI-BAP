@@ -108,7 +108,7 @@ class Device:
 	def __init__(self, addr):
 		self.__cnt = 0
 		self.__addr = addr
-		self.__ser = RS485(12, 9600, 2)
+		self.__ser = RS485(12, 9600, 1)
 		self.__cmds = {}
 	
 		
@@ -190,10 +190,20 @@ class Device:
 		
 
 
-mega = Device(10)
-mega.addCmd('light')
-mega.addCmd('led')
-mega.sendCmd('led', 'on')
+nano1 = Device(1)
+nano2 = Device(10)
+nano1.addCmd('led')
+nano2.addCmd('led')
+
+nano1.sendCmd('reset')
+nano2.sendCmd('reset')
+
+for i in range(0,260):
+	nano1.sendCmd('led', 'on')
+	nano2.sendCmd('led', 'on')
+	nano1.sendCmd('led', 'off')
+	nano2.sendCmd('led', 'off')
+
 	
 
 
