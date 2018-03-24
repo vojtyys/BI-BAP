@@ -5,25 +5,63 @@ import serial
 import RPi.GPIO as GPIO
 import crcmod
 
-cmds = {'light' : {'cmd' : 0,
-		   'on'  : 0,
-		   'off' : 1,
-		   'dimlevel' : 2},
+cmds = {'light' : {'cmd'        : 1,
+		   
+		   'on'         : {'par'       : False,
+			           'time'      : False,
+			           'cmd'       : 0},
+		   
+		   'off'        : {'par'       : False,
+			           'time'      : False,
+			           'cmd'       : 1},
+		   
+		   'dim'        : {'par'       : True,
+			           'time'      : False,
+			           'cmd'       : 2},
+		   
+		   'timeon'     : {'par'       : True,
+				   'time'      : True,
+				   'cmd'       : 3},
 	
-       	'socket' : {'cmd' : 1,
-		    'on'  : 0,
-		    'off' : 1},
+                   'timeoff'    : {'par'       : True,
+				   'time'      : True,
+				   'cmd'       : 4}},
 	
-	'boiler' : {'cmd' : 2,
-		    'temp' : 0},
+       	'socket' : {'cmd'       : 2,
+		    
+		    'on'        : {'par'       : False,
+			           'time'      : False,
+			           'cmd'       : 0},
+		    
+		    'off'       : {'par'       : False,
+			           'time'      : False,
+			           'cmd'       : 1}},
 	
-	'window' : {'cmd' : 3,
-		    'open' : 0,
-		    'close' : 1},
+	'boiler' : {'cmd'       : 3,
+		    
+		    'temp'      : {'par'       : True,
+			           'time'      : False,
+			           'cmd'       : 0}},
 	
-	'led'    : {'cmd' : 4,
-		    'on'  : 0,
-		    'off' : 1}
+	'window' : {'cmd'       : 4,
+		    
+		    'open'      : {'par'       : False,
+				   'time'      : False,
+				   'cmd        : 0},
+		    
+		    'close'     : {'par'       : False,
+				   'time'      : False,
+				   'cmd'       : 1}},
+	
+	'led'    : {'cmd'       : 5,
+		    
+		    'on'        : {'par'       : False,
+				   'time'      : False,
+				   'cmd'       : 0},
+		    
+		    'off'       : {'par'       : False,
+				   'time'      : False,
+				   'cmd'       : 1}}
        }
 
 GPIO.setmode(GPIO.BOARD)
@@ -59,8 +97,8 @@ def getCrc(data):
 
 
 def checkCrc(data):
-	crc = getCrc(data[0:5])
-	tmp = data[5:]
+	crc = getCrc(data[0:6])
+	tmp = data[6:]
 	if (tmp == crc):
 		return True
 	return False
@@ -74,73 +112,80 @@ class Device:
 		self.__cmds = {}
 	
 		
-	def sendCmd(self,cmd, param1):
+	def sendCmd(self,dev, func=None, param=None):
+		if (cmd != 'reset'):
+			if (not self.checkCmd(dev, func, param)):                         #TODO
+				print('Device, function or parameter was not recognized.')
+				return
+	
+			data = self.__addr.to_bytes(1, 'big') + self.__cnt.to_bytes(1, 'big') + self.__cmds[dev]['cmd'].to_bytes(1, 'big') + self.__cmds[dev][func].to_bytes(1, 'big')
+			if (self.__hasParam(dev, func)):                                                    #TODO
+				if (self.__hasTimeParam(dev, func)):                                        #TODO
+					pass#TODO
+				else:
+					data = data + param.to_bytes(1, 'big') + bytes.fromhex('00')		
 		
-		data = self.__addr.to_bytes(1, 'big')
-		
-		data = data + self.__cnt.to_bytes(1, 'big')
-		
-		if (cmd not in self.__cmds):
-			print('Unknown command')
-			return
-		
-		if (param1 not in self.__cmds[cmd]):
-			print('Unknow function')
-			return
-		
-		tmpParam2 = bytes.fromhex('00')
-		data = data + self.__cmds[cmd]['cmd'].to_bytes(1, 'big') + self.__cmds[cmd][param1].to_bytes(1, 'big') + tmpParam2
-		crc = getCrc(data)
-		data = bytes(data + crc)
+				data = data + getCrc(data)
+		else:
+			data = self.__addr.to_bytes(1, 'big') + bytes.fromhex('00 00 00 00 00')
+			data = data + getCrc(data)
+	
 		print("Sending cmd: ", end='')
 		print(data)
 		self.__ser.sendData(data)
+	
 		attempts = 10
 		while(True):
                     if(attempts == 0):
                         print('Error: cannot send CMD: ', end='')
                         print(cmd)
                         break
-
-                    expectedAck = bytes.fromhex('00') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00') + self.__addr.to_bytes(1, 'big') + bytes.fromhex('00')
-                    expectedAck = expectedAck + getCrc(expectedAck)
-                    print('Waiting for ACK')
-                    ack = self.__ser.getData(7)
-                    print('Got: ', end='')
-                    print(ack)
-                    if (ack != expectedAck):
-                        print('Incorrect ACK, expected: ' + str(expectedAck))
+	
+                    if (not self.__checkAck(self)):      #CHECK CNT pridat
                         print('Sending CMD again: ' + str(data))
                         self.__ser.sendData(data)
                         attempts = attempts - 1
                     else:
-                        print('ACK OK')
                         self.__cnt = (self.__cnt + 1) % 256
                         break
 			
-	def addCommand(self, cmd):
+	def addCmd(self, cmd):
 		if (cmd not in cmds):
-			print('Unknown command')
+			print('Unknown command ' + cmd)
 			return
 		self.__cmds[cmd] = cmds[cmd]
-				
+	
+	def __checkAck(self):		
+		expectedAck = bytes.fromhex('00') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00') + self.__addr.to_bytes(1, 'big') + bytes.fromhex('00')	
+		expectedAck = expectedAck + getCrc(expectedAck)
+		
+		print('Waiting for ACK')
+		ack = self.__ser.getData(7)
+		print('Got: ' + str(ack))
+		
+		if (ack == expectedAck):
+			print('ACK OK')
+			return True
+		else:
+			print('Incorrect ACK, expected: ' + str(expectedAck))
+			return False
 	
 		
 
 
 mega = Device(1)
 mega.sendCmd('light', 'on')
-mega.addCommand('light')
-mega.addCommand('foo')
-mega.addCommand('led')
+mega.addCmd('light')
+mega.addCmd('foo')
+mega.addCmd('led')
 
 	
 mega.sendCmd('light', 'on')
 nano = Device(10)
 nano.sendCmd('light', 'on')
-nano.addCommand('light')
-nano.addCommand('foo')
-nano.addCommand('led')
+nano.addCmd('light')
+nano.addCmd('foo')
+nano.addCmd('led')
 
 for i in range(0, 260):
     mega.sendCmd('led', 'on')
