@@ -108,7 +108,7 @@ class Device:
 	def __init__(self, addr):
 		self.__cnt = 0
 		self.__addr = addr
-		self.__ser = RS485(12, 9600, 1)
+		self.__ser = RS485(12, 9600, 2)
 		self.__cmds = {}
 	
 		
@@ -190,25 +190,12 @@ class Device:
 		
 
 
-mega = Device(1)
-mega.sendCmd('light', 'on')
+mega = Device(10)
 mega.addCmd('light')
-mega.addCmd('foo')
 mega.addCmd('led')
-
+mega.sendCmd('led', 'on')
 	
-mega.sendCmd('light', 'on')
-nano = Device(10)
-nano.sendCmd('light', 'on')
-nano.addCmd('light')
-nano.addCmd('foo')
-nano.addCmd('led')
 
-for i in range(0, 260):
-    mega.sendCmd('led', 'on')
-    nano.sendCmd('led', 'on')
-    mega.sendCmd('led', 'off')
-    nano.sendCmd('led','off')
 
 
 print('\nTerminating program...\n')
