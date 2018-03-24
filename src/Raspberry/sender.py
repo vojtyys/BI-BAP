@@ -132,6 +132,7 @@ mega = Device(1)
 mega.sendCmd('light', 'on')
 mega.addCommand('light')
 mega.addCommand('foo')
+mega.addCommand('led')
 
 	
 mega.sendCmd('light', 'on')
@@ -139,11 +140,14 @@ nano = Device(10)
 nano.sendCmd('light', 'on')
 nano.addCommand('light')
 nano.addCommand('foo')
+nano.addCommand('led')
 
-nano.sendCmd('light', 'off')
 for i in range(0, 260):
-    mega.sendCmd('light', 'on')
-    nano.sendCmd('light', 'on')
+    mega.sendCmd('led', 'on')
+    nano.sendCmd('led', 'on')
+    mega.sendCmd('led', 'off')
+    nano.sendCmd('led','off')
+
 
 print('\nTerminating program...\n')
 GPIO.cleanup()
