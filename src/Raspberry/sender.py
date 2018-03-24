@@ -124,11 +124,11 @@ class Device:
 					data = data + bytes.fromhex('00 00')                                   #TODO
 				else:
 					data = data + param.to_bytes(1, 'big') + bytes.fromhex('00')		
-		
-				data = data + getCrc(data)
+			else:
+				data = data + bytes.fromhex('00 00')
 		else:
 			data = self.__addr.to_bytes(1, 'big') + bytes.fromhex('00 00 00 00 00')
-			data = data + getCrc(data)
+		data = data + getCrc(data)
 	
 		print("Sending cmd: ", end='')
 		print(data)
