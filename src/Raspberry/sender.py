@@ -113,7 +113,7 @@ class Device:
 	
 		
 	def sendCmd(self,dev, func=None, param=None):
-		if (cmd != 'reset'):
+		if (dev != 'reset'):
 			if (not self.__checkCmd(dev, func, param)):                         
 				print('Device, function or parameter was not recognized.')
 				return
@@ -138,10 +138,10 @@ class Device:
 		while(True):
                     if(attempts == 0):
                         print('Error: cannot send CMD: ', end='')
-                        print(cmd)
+                        print(dev)
                         break
 	
-                    if (not self.__checkAck(self)):     
+                    if (not self.__checkAck()):     
                         print('Sending CMD again: ' + str(data))
                         self.__ser.sendData(data)
                         attempts = attempts - 1
@@ -170,21 +170,21 @@ class Device:
 			print('Incorrect ACK, expected: ' + str(expectedAck))
 			return False
 	
-	def __checkCmd(dev, func, param):
+	def __checkCmd(self, dev, func, param):
 		if (dev not in self.__cmds):
 			return False
 		if (func not in self.__cmds[dev]):
 			return False
-		if (param == None and self.__cmds[dev][func]['param']):
+		if (param == None and self.__cmds[dev][func]['par']):
 			return False
-		if (param != None and not self.__cmds[dev][func]['param']):
+		if (param != None and not self.__cmds[dev][func]['par']):
 			return False
 		return True
 	
-	def __hasParam(dev, func):
-		return self.__cmds[dev][func]['param']
+	def __hasParam(self, dev, func):
+		return self.__cmds[dev][func]['par']
 	
-	def __hasTimeParam(dev, func):
+	def __hasTimeParam(self, dev, func):
 		return self.__cmds[dev][func]['time']
 	
 		
