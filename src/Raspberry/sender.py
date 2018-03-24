@@ -19,7 +19,11 @@ cmds = {'light' : {'cmd' : 0,
 	
 	'window' : {'cmd' : 3,
 		    'open' : 0,
-		    'close' : 1}
+		    'close' : 1},
+	
+	'led'    : {'cmd' : 4,
+		    'on'  : 0,
+		    'off' : 1}
        }
 
 GPIO.setmode(GPIO.BOARD)
@@ -66,7 +70,7 @@ class Device:
 	def __init__(self, addr):
 		self.__cnt = 0
 		self.__addr = addr
-		self.__ser = RS485(12, 9600, 3)
+		self.__ser = RS485(12, 9600, 1)
 		self.__cmds = {}
 	
 		
@@ -128,6 +132,7 @@ mega = Device(1)
 mega.sendCmd('light', 'on')
 mega.addCommand('light')
 mega.addCommand('foo')
+mega.addCommand('led')
 
 	
 mega.sendCmd('light', 'on')
@@ -135,11 +140,14 @@ nano = Device(10)
 nano.sendCmd('light', 'on')
 nano.addCommand('light')
 nano.addCommand('foo')
+nano.addCommand('led')
 
-nano.sendCmd('light', 'off')
 for i in range(0, 260):
-    mega.sendCmd('light', 'on')
-    nano.sendCmd('light', 'on')
+    mega.sendCmd('led', 'on')
+    nano.sendCmd('led', 'on')
+    mega.sendCmd('led', 'off')
+    nano.sendCmd('led','off')
+
 
 print('\nTerminating program...\n')
 GPIO.cleanup()
