@@ -19,7 +19,11 @@ cmds = {'light' : {'cmd' : 0,
 	
 	'window' : {'cmd' : 3,
 		    'open' : 0,
-		    'close' : 1}
+		    'close' : 1},
+	
+	'led'    : {'cmd' : 4,
+		    'on'  : 0,
+		    'off' : 1}
        }
 
 GPIO.setmode(GPIO.BOARD)
