@@ -196,8 +196,9 @@ nano1.addCmd('led')
 nano2.addCmd('led')
 
 nano1.sendCmd('reset')
+time.sleep(3)
 nano2.sendCmd('reset')
-
+time.sleep(3)
 for i in range(0,260):
 	nano1.sendCmd('led', 'on')
 	nano2.sendCmd('led', 'on')
