@@ -207,7 +207,7 @@ nano2.addCmd('led')
 
 nano1.reset()
 nano1.addCmd('light')
-nano1.senCmd('light', 'on')
+nano1.sendCmd('light', 'on')
 time.sleep(1)
 nano1.delCmd('light')
 nano1.sendCmd('light', 'on')
