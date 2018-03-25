@@ -199,15 +199,14 @@ nano2 = Device(10)
 nano1.addCmd('led')
 nano2.addCmd('led')
 
-nano1.sendCmd('reset')
-time.sleep(3)
-nano2.sendCmd('reset')
-time.sleep(3)
+nano1.reset()
+nano2.reset()
 for i in range(0,260):
-	nano1.sendCmd('led', 'on')
-	nano2.sendCmd('led', 'on')
-	nano1.sendCmd('led', 'off')
-	nano2.sendCmd('led', 'off')
+    nano1.sendCmd('led', 'on')
+    nano2.sendCmd('led', 'on')
+    nano1.sendCmd('led', 'off')
+    nano2.sendCmd('led', 'off')
+    
 
 	
 
