@@ -54,3 +54,7 @@ Analýza
 CRC
 ===
  * [stránky](http://www.ross.net/crc/crcpaper.html)
+ 
+ Reset
+ =====
+ * [reset](http://www.instructables.com/id/two-ways-to-reset-arduino-in-software/)
