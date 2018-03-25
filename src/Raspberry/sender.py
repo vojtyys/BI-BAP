@@ -85,23 +85,22 @@ class RS485:
 	def getData(self, cnt):
 		data = self.__ser.read(cnt)
 		return data
-
-
-crc16 = crcmod.mkCrcFun(0x11021, 0xffff, False, 0x0000)
-
+class CRC:
+	def __init__(self);
+	self.__crc = crcmod.mkCrcFun(0x11021, 0xffff, False, 0x0000)
 	
-def getCrc(data):
-	crc = crc16(data)
-	crc = crc.to_bytes(2, 'big')
-	return crc
+	def getCrc(self, data):
+		crc = self.__crc(data)
+		crc = crc.to_bytes(2, 'big')
+		return crc
 
 
-def checkCrc(data):
-	crc = getCrc(data[0:6])
-	tmp = data[6:]
-	if (tmp == crc):
-		return True
-	return False
+	def checkCrc(self, data):
+		crc = self.getCrc(data[0:6])
+		tmp = data[6:]
+		if (tmp == crc):
+			return True
+		return False
 
 
 class Device:
@@ -109,6 +108,7 @@ class Device:
 		self.__cnt = 0
 		self.__addr = addr
 		self.__ser = RS485(12, 9600, 1)
+		self.__crc = CRC()
 		self.__cmds = {}
 	
 		
@@ -128,7 +128,7 @@ class Device:
 				data = data + bytes.fromhex('00 00')
 		else:
 			data = self.__addr.to_bytes(1, 'big') + bytes.fromhex('00 00 00 00 00')
-		data = data + getCrc(data)
+		data = data + self.__crc.getCrc(data)
 	
 		print("Sending cmd: ", end='')
 		print(data)
@@ -161,7 +161,7 @@ class Device:
 	
 	def __checkAck(self):		
 		expectedAck = bytes.fromhex('00') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00') + self.__addr.to_bytes(1, 'big') + bytes.fromhex('00 00')	
-		expectedAck = expectedAck + getCrc(expectedAck)
+		expectedAck = expectedAck + self.__crc.getCrc(expectedAck)
 		
 		print('Waiting for ACK')
 		ack = self.__ser.getData(8)
