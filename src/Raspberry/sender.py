@@ -86,8 +86,8 @@ class RS485:
 		data = self.__ser.read(cnt)
 		return data
 class CRC:
-	def __init__(self);
-	self.__crc = crcmod.mkCrcFun(0x11021, 0xffff, False, 0x0000)
+	def __init__(self):
+	    self.__crc = crcmod.mkCrcFun(0x11021, 0xffff, False, 0x0000)
 	
 	def getCrc(self, data):
 		crc = self.__crc(data)
