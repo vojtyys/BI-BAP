@@ -155,6 +155,12 @@ class Device:
 			return
 		self.__cmds[cmd] = cmds[cmd]
 		
+	def delCmd(self, cmd):
+		if (cmd not in self.__cmds):
+			print('Cannot delete, CMD: ' + cmd + ' was nt added.')
+			return
+		del self.__cmds[cmd]
+		
 	def reset(self):
 		self.sendCmd('reset')
 		self.__cnt = 0
@@ -200,6 +206,13 @@ nano1.addCmd('led')
 nano2.addCmd('led')
 
 nano1.reset()
+nano1.addCmd('light')
+nano1.senCmd('light', 'on')
+time.sleep(1)
+nano1.delCmd('light')
+nano1.sendCmd('light', 'on')
+time.sleep(1)
+
 nano2.reset()
 for i in range(0,260):
     nano1.sendCmd('led', 'on')
