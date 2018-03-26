@@ -58,3 +58,7 @@ CRC
  Reset
  =====
  * [reset](http://www.instructables.com/id/two-ways-to-reset-arduino-in-software/)
+ 
+ Inteligentní dům
+ ================
+ * [wiki](https://cs.wikipedia.org/wiki/Inteligentní_dům)
