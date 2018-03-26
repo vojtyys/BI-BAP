@@ -51,14 +51,11 @@ Analýza
 * [modul](https://www.aliexpress.com/item/Narrow-Band-Powerline-Communication-PLC-Shield/32280040349.html?ws_ab_test=searchweb0_0,searchweb201602_2_10152_10065_10151_10344_10068_10345_10342_10343_10340_10341_10171_10541_10562_10084_10083_10304_10307_10302_10060_10155_10154_10056_10055_10539_10537_10312_10536_10059_10313_10314_10534_10533_100031_10103_10073_10102_10557_10142_10107,searchweb201603_25,ppcSwitch_5&btsid=94275250-1815-4e33-938d-ea9a22efd8f7&algo_expid=716cfe2c-7c60-4a13-81ea-e3f04baba12b-0&algo_pvid=716cfe2c-7c60-4a13-81ea-e3f04baba12b)
 
 
-CRC
-===
+## CRC
  * [stránky](http://www.ross.net/crc/crcpaper.html)
  
- Reset
- =====
+## Reset
  * [reset](http://www.instructables.com/id/two-ways-to-reset-arduino-in-software/)
  
- Inteligentní dům
- ================
+ ## Inteligentní dům
  * [wiki](https://cs.wikipedia.org/wiki/Inteligentní_dům)
