@@ -41,7 +41,15 @@ cmds = {'light' : {'cmd'        : 1,
 		    
 		    'temp'      : {'par'       : True,
 			           'time'      : False,
-			           'cmd'       : 0}},
+			           'cmd'       : 0},
+		    
+                    'on'        : {'par'       : False,
+				   'time'      : False,
+				   'cmd'       : 1},
+		    
+		    'off'       : {'par'       : False,
+				   'time'      : False,
+				   'cmd'       : 2}},
 	
 	'window' : {'cmd'       : 4,
 		    
