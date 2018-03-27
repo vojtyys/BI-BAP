@@ -32,6 +32,10 @@ byte gTempSet;
 unsigned long time;
 unsigned long curr_time;
 
+unsigned long gSocketStartTime;
+unsigned long gSocketOffTime;
+bool gSocketOffTimeEn;
+
 bool isResetCmd(uint8_t cmd[CMDLEN]);
 void checkBoiler();
 
@@ -58,6 +62,7 @@ void setup() {
   cnt = 0;
   gTempEn = false;
   gBoilerIsOn = false;
+  gSocketOffTimeEn = false;
   curr_state = WAIT;
   next_state = WAIT;
   time = 0;
@@ -67,6 +72,13 @@ void setup() {
 void loop() {
   switch (curr_state) {
     case WAIT:
+      if (gSocketOffTimeEn) {
+        curr_time = millis();
+        if ((curr_time - gSocketStartTime) > gSocketOffTime) {
+          socket.off();
+          gSocketOffTimeEn = false;
+        }
+      }
       curr_time = millis();
       if (curr_time - time > 30000) {
         if (gTempEn) {
@@ -131,6 +143,12 @@ void loop() {
 
             case 1: //off
               socket.off();
+              break;
+
+            case 2: //timeoff
+              gSocketOffTimeEn = true;
+              gSocketOffTime = ((cmd[4] << 8) | cmd[5]) * 1000;
+              gSocketStartTime = millis();
               break;
           }
           break;
