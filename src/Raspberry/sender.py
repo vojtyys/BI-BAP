@@ -35,7 +35,11 @@ cmds = {'light' : {'cmd'        : 1,
 		    
 		    'off'       : {'par'       : False,
 			           'time'      : False,
-			           'cmd'       : 1}},
+			           'cmd'       : 1},
+		     
+		   'timeoff'    : {'par'       : True,
+				   'time'      : True,
+				   'cmd'       : 3}},
 	
 	'boiler' : {'cmd'       : 3,
 		    
@@ -129,7 +133,7 @@ class Device:
 			data = self.__addr.to_bytes(1, 'big') + self.__cnt.to_bytes(1, 'big') + self.__cmds[dev]['cmd'].to_bytes(1, 'big') + self.__cmds[dev][func]['cmd'].to_bytes(1, 'big')
 			if (self.__hasParam(dev, func)):                                                    
 				if (self.__hasTimeParam(dev, func)):                                        
-					data = data + bytes.fromhex('00 00')                                   #TODO
+					data = data + param.to_bytes(2, 'big')                                   #TODO
 				else:
 					data = data + param.to_bytes(1, 'big') + bytes.fromhex('00')		
 			else:
