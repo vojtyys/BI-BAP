@@ -214,35 +214,23 @@ class Device:
 
 nano1 = Device(1)
 nano2 = Device(10)
+
+nano1.addCmd('led')
+
+nano2.addCmd('led')
 nano2.addCmd('socket')
-#nano1.addCmd('light')
-#nano2.addCmd('boiler')
 
-#nano1.reset()
+nano1.reset()
 nano2.reset()
-#nano1.sendCmd('light', 'on')
-#time.sleep(10)
-#nano1.sendCmd('light', 'off')
-#time.sleep(10)
-#nano1.sendCmd('light', 'dim', 10)
-#time.sleep(10)
-#nano1.sendCmd('light', 'dim', 50)
-#time.sleep(10)
-#nano1.sendCmd('light', 'off')
-#time.sleep(10)
-#nano2.sendCmd('socket', 'on')
-#time.sleep(10)
-#nano2.sendCmd('socket', 'off')
-#time.sleep(10)
-#nano2.sendCmd('boiler', 'temp', 30)
-#nano2.sendCmd('boiler', 'on')
-#time.sleep(45)
-#nano2.sendCmd('boiler', 'temp', 0)
-#time.sleep(45)
-nano2.sendCmd('socket', 'on')
-nano2.sendCmd('socket', 'timeoff', 30)
 
-	
+nano2.sendCmd('socket', 'on')
+nano2.sendCmd('socket', 'timeoff', 25)
+
+for i in range(0,260):
+    nano1.sendCmd('led', 'on')
+    nano2.sendCmd('led', 'on')
+    nano1.sendCmd('led', 'off')
+    nano2.sendCmd('led', 'off')
 
 
 
