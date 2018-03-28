@@ -59,3 +59,4 @@ Analýza
  
  ## Inteligentní dům
  * [wiki](https://cs.wikipedia.org/wiki/Inteligentní_dům)
+ * [diplomka](http://invenio.nusl.cz/record/217240)
