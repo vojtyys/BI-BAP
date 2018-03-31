@@ -126,6 +126,7 @@ class Device:
 		self.__ser = RS485(12, 9600, 1)
 		self.__crc = CRC()
 		self.__cmds = {}
+		self.reset()
 	
 		
 	def sendCmd(self,dev, func=None, param=None):
