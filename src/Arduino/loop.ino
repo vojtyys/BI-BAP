@@ -29,12 +29,22 @@ bool gTempEn;
 bool gBoilerIsOn;
 byte gTempSet;
 
-unsigned long time;
-unsigned long curr_time;
+unsigned long gTime;
+unsigned long gCurrTime;
 
-unsigned long gSocketStartTime;
+unsigned long gSocketOnStartTime;
+unsigned long gSocketOffStartTime;
 unsigned long gSocketOffTime;
+unsigned long gSocketOnTime;
 bool gSocketOffTimeEn;
+bool gSocketOnTimeEn;
+
+unsigned long gLightOnStartTime;
+unsigned long gLightOffStartTime;
+unsigned long gLightOnTime;
+unsigned long gLightOffTime;
+bool gLightOnTimeEn;
+bool gLightOffTimeEn;
 
 bool isResetCmd(uint8_t cmd[CMDLEN]);
 void checkBoiler();
@@ -63,28 +73,61 @@ void setup() {
   gTempEn = false;
   gBoilerIsOn = false;
   gSocketOffTimeEn = false;
+  gSocketOnTimeEn = false;
+
+  gLightOnTimeEn = false;
+  gLightOffTimeEn = false;
+
   curr_state = WAIT;
   next_state = WAIT;
-  time = 0;
+  gTime = 0;
 }
 
 
 void loop() {
   switch (curr_state) {
     case WAIT:
+      //automaticke vypnuti zasuvky
       if (gSocketOffTimeEn) {
-        curr_time = millis();
-        if ((curr_time - gSocketStartTime) > gSocketOffTime) {
+        gCurrTime = millis();
+        if ((gCurrTime - gSocketOffStartTime) > gSocketOffTime) {
           socket.off();
           gSocketOffTimeEn = false;
         }
       }
-      curr_time = millis();
-      if (curr_time - time > 30000) {
+      //automaticke zapnuti zasuvky
+      if (gSocketOnTimeEn) {
+        gCurrTime = millis();
+        if ((gCurrTime - gSocketOnStartTime) > gSocketOnTime) {
+          socket.on();
+          gSocketOnTimeEn = false;
+        }
+      }
+
+      //automaticke zapnuti svetla
+      if (gLightOnTimeEn) {
+        gCurrTime = millis();
+        if ((gCurrTime - gLightOnStartTime) > gLightOnTime) {
+          light.on();
+          gLightOnTimeEn = false;
+        }
+      }
+
+      //automaticke vypnuti svetla
+      if (gLightOffTimeEn) {
+        gCurrTime = millis();
+        if ((gCurrTime - gLightOffStartTime) > gLightOffTime) {
+          light.off();
+          gLightOffTimeEn = false;
+        }
+      }
+
+      gCurrTime = millis();
+      if (gCurrTime - gTime > 30000) {
         if (gTempEn) {
           checkBoiler();
         }
-        time = millis();
+        gTime = millis();
       }
       if (Serial.available()) {
         if (Serial.readBytes(cmd, CMDLEN) != CMDLEN) {
@@ -132,6 +175,19 @@ void loop() {
 
             case 2: //dim
               light.setDim(cmd[4]);
+              break;
+
+            case 3: //timeon
+              gLightOnTimeEn = true;
+              gLightOnTime = (((unsigned long) cmd[4] << 8) | (unsigned long) cmd[5]) * 1000;
+              gLightOnStartTime = millis();
+              break;
+
+            case 4: //timeoff
+              gLightOffTimeEn = true;
+              gLightOffTime = (((unsigned long) cmd[4] << 8) | (unsigned long) cmd[5]) * 1000;
+              gLightOffStartTime = millis();
+              break;
           }
           break;
 
@@ -145,10 +201,16 @@ void loop() {
               socket.off();
               break;
 
-            case 2: //timeoff
+            case 2: //timeon
+              gSocketOnTimeEn = true;
+              gSocketOnTime = (((unsigned long) cmd[4] << 8) | (unsigned long) cmd[5]) * 1000;
+              gSocketOnStartTime = millis();
+              break;
+
+            case 3: //timeoff
               gSocketOffTimeEn = true;
-              gSocketOffTime = ((cmd[4] << 8) | cmd[5]) * 1000;
-              gSocketStartTime = millis();
+              gSocketOffTime = (((unsigned long) cmd[4] << 8) | (unsigned long) cmd[5]) * 1000;
+              gSocketOffStartTime = millis();
               break;
           }
           break;
@@ -211,7 +273,7 @@ bool checkCRC(byte cmd[CMDLEN]) {
   for (int i = 0; i < CMDLEN - 2; ++i) {
     buff[i] = cmd[i];
   }
-  uint16_t tmp = (cmd[CMDLEN - 2] << 8) | cmd[CMDLEN - 1];
+  uint16_t tmp = ((uint16_t) cmd[CMDLEN - 2] << 8) |(uint16_t) cmd[CMDLEN - 1];
   if (getCRC(buff, sizeof(buff)) != tmp) {
     return false;
   } else {
