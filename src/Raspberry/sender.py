@@ -37,9 +37,13 @@ cmds = {'light' : {'cmd'        : 1,
 			           'time'      : False,
 			           'cmd'       : 1},
 		     
-		   'timeoff'    : {'par'       : True,
+		   'timeon'     : {'par'       : True,
 				   'time'      : True,
-				   'cmd'       : 2}},
+				   'cmd'       : 2},
+		    
+	           'timeoff'    : {'par'       : True,
+				   'time'      : True,
+				   'cmd'       : 3}},
 	
 	'boiler' : {'cmd'       : 3,
 		    
