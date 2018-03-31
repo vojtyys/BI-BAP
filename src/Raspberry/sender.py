@@ -158,7 +158,8 @@ class Device:
                         print(dev)
                         break
 	
-                    if (not self.__checkAck()):     
+                    if (not self.__checkAck()):   
+			time.sleep(2)
                         print('Sending CMD again: ' + str(data))
                         self.__ser.sendData(data)
                         attempts = attempts - 1
