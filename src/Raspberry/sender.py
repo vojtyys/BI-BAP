@@ -180,6 +180,12 @@ class Device:
 	def reset(self):
 		self.sendCmd('reset')
 		self.__cnt = 0
+		
+	def showCmd(self):
+		list = []
+		for key in self.__cmds:
+			list.append(key)
+		return list
 	
 	def __checkAck(self):		
 		expectedAck = bytes.fromhex('00') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00') + self.__addr.to_bytes(1, 'big') + bytes.fromhex('00 00')	
