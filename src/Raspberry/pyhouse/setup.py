@@ -6,5 +6,5 @@ setup(name='pyhouse',
       url='http://github.com/vojtyys/BI-BAP',
       author='Vojtech Pail',
       author_email='pailvoj1@fit.cvut.cz',
-      packages=['pyhouse', 'pyserial'],
+      packages=['pyhouse'],
       zip_safe=False)

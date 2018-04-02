@@ -159,7 +159,7 @@ class Device:
                         break
 	
                     if (not self.__checkAck()):   
-			time.sleep(2)
+                        time.sleep(2)
                         print('Sending CMD again: ' + str(data))
                         self.__ser.sendData(data)
                         attempts = attempts - 1
@@ -220,44 +220,3 @@ class Device:
 	
 	def __hasTimeParam(self, dev, func):
 		return self.__cmds[dev][func]['time']
-	
-		
-
-
-nano1 = Device(1)
-nano2 = Device(10)
-nano2.addCmd('socket')
-nano1.addCmd('light')
-nano2.addCmd('boiler')
-
-nano1.reset()
-nano2.reset()
-nano1.sendCmd('light', 'on')
-
-time.sleep(5)
-nano1.sendCmd('light', 'off')
-time.sleep(5)
-nano1.sendCmd('light', 'dim', 10)
-time.sleep(5)
-nano1.sendCmd('light', 'dim', 50)
-time.sleep(5)
-nano1.sendCmd('light', 'off')
-time.sleep(5)
-nano2.sendCmd('socket', 'on')
-time.sleep(5)
-nano2.sendCmd('socket', 'off')
-time.sleep(5)
-nano2.sendCmd('boiler', 'temp', 30)
-nano2.sendCmd('boiler', 'on')
-time.sleep(45)
-nano2.sendCmd('boiler', 'temp', 0)
-
-    
-
-	
-
-
-
-print('\nTerminating program...\n')
-GPIO.cleanup()
-exit(0)
