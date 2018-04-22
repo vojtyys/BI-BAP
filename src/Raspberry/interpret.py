@@ -65,7 +65,7 @@ try:
                 else:
                     print('Unknown method: ' + words[2])
                     continue
-                    
+										    
             elif (words[0] == 'send'):
                 if (words[1] not in devices):
                     print('Device not found: ' + words[1])
