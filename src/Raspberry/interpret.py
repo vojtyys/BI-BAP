@@ -9,7 +9,15 @@ import pyhouse
 
 #slovník zařízení pro jejich přidávání, odebírání a ovládání
 devices = {}
-
+def showUsage():
+    print('''Usage: add name address - use to add new device
+		                del name - use to remove device
+										devices - list of devices
+										call {addCmd CMD} | {delCmd CMD} | reset | showCmd | getAddr - call device method
+										send device {remote device} function [parameter] - send CMD
+										C^c, C^d - exit
+										help - show usage''')
+showUsage()
 try:
     while True:
         line = input('\nType a command: ')
@@ -19,6 +27,8 @@ try:
                 for key in devices:
                     print(key, end=', ')
                     print('addr: ' + str(devices[key].getAddr()))
+            elif (words[0] == 'help'):
+                showUsage()
             elif (words[0] == 'add'):
                 if (not words[2].isdecimal()):
                     print('Address is not a number: ' + words[2])
