@@ -59,8 +59,8 @@ try:
                 dev = devices[words[1]]
                 if(len(words) == 4):
                     dev.sendCmd(words[2], words[3])
-                elif (len(worlds) == 5):
-                    dev.sendCmd(word[2], word[3], word[4])                
+                elif (len(words) == 5):
+                    dev.sendCmd(words[2], words[3], int(words[4]))                
                 else:
                     print('Invalid count of parameters')
             else:
