@@ -16,7 +16,9 @@ try:
         words = line.split()
         try:
             if (words[0] == 'devices'):
-                print(str(devices))
+                for key in devices:
+                    print(key, end=', ')
+                    print('addr: ' + str(devices[key]))
             elif (words[0] == 'add'):
                 if (not words[2].isdecimal()):
                     print('Address is not a number: ' + words[2])
