@@ -41,9 +41,9 @@ try:
                     
                 dev = devices[words[1]]    
                 if (words[2] == 'addCmd'):
-                    dev.addCmd(words[2])
+                    dev.addCmd(words[3])
                 elif (words[2] == 'delCmd'):
-                    dev.delCmd(words[2])
+                    dev.delCmd(words[3])
                 elif (words[2] == 'showCmd'):
                     dev.showCmd()
                 elif (words[2] == 'reset'):
