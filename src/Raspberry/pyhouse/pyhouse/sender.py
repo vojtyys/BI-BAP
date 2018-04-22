@@ -101,6 +101,10 @@ class RS485:
     def getData(self, cnt):
         data = self.__ser.read(cnt)
         return data
+        
+    def clearInput(self):
+        self.__ser.reset_input_buffer()
+        
 class CRC:
     def __init__(self):
         self.__crc = crcmod.mkCrcFun(0x11021, 0xffff, False, 0x0000)
@@ -133,12 +137,12 @@ class Device:
         if (dev != 'reset'):
             if (not self.__checkCmd(dev, func, param)):                         
                 print('Device, function or parameter was not recognized.')
-                return
+                return True
     
             data = self.__addr.to_bytes(1, 'big') + self.__cnt.to_bytes(1, 'big') + self.__cmds[dev]['cmd'].to_bytes(1, 'big') + self.__cmds[dev][func]['cmd'].to_bytes(1, 'big')
             if (self.__hasParam(dev, func)):                                                    
                 if (self.__hasTimeParam(dev, func)):                                        
-                    data = data + param.to_bytes(2, 'big')                                   #TODO
+                    data = data + param.to_bytes(2, 'big')                                   
                 else:
                     data = data + param.to_bytes(1, 'big') + bytes.fromhex('00')        
             else:
@@ -147,6 +151,7 @@ class Device:
             data = self.__addr.to_bytes(1, 'big') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00 00 00 00')
         data = data + self.__crc.getCrc(data)
     
+        self.__ser.clearInput()
         print("Sending cmd: ", end='')
         print(data)
         self.__ser.sendData(data)
@@ -156,7 +161,7 @@ class Device:
                     if(attempts == 0):
                         print('Error: cannot send CMD: ', end='')
                         print(dev)
-                        break
+                        return False
     
                     if (not self.__checkAck()):   
                         time.sleep(2)
@@ -165,7 +170,7 @@ class Device:
                         attempts = attempts - 1
                     else:
                         self.__cnt = (self.__cnt + 1) % 256
-                        break
+                        return True
             
     def addCmd(self, cmd):
         if (cmd not in cmds):
