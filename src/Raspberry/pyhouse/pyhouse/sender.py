@@ -193,6 +193,8 @@ class Device:
         for key in self.__cmds:
             list.append(key)
         return list
+    def getAddr(self):
+        return self.__addr
     
     def __checkAck(self):        
         expectedAck = bytes.fromhex('00') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00') + self.__addr.to_bytes(1, 'big') + bytes.fromhex('00 00')    
