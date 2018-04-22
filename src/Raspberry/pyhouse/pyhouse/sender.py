@@ -144,7 +144,7 @@ class Device:
             else:
                 data = data + bytes.fromhex('00 00')
         else:
-            data = self.__addr.to_bytes(1, 'big') + bytes.fromhex('00 00 00 00 00')
+            data = self.__addr.to_bytes(1, 'big') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00 00 00 00')
         data = data + self.__crc.getCrc(data)
     
         print("Sending cmd: ", end='')
