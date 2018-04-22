@@ -15,7 +15,9 @@ try:
         line = input('\nType a command: ')
         words = line.split()
         try:
-            if (words[0] == 'add'):
+            if (words[0] == 'devices'):
+                print(str(devices))
+            elif (words[0] == 'add'):
                 if (not words[2].isdecimal()):
                     print('Address is not a number: ' + words[2])
                     continue
