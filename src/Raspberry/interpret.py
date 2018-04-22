@@ -22,7 +22,7 @@ try:
                 if (words[1] in devices):
                     print('Device already added: ' + words[1])
                     continue
-                dev = tmp.Device(int(words[2]))
+                dev = pyhouse.Device(int(words[2]))
 
                 devices[words[1]] = dev
                 print(words[1] + ' added')
@@ -42,12 +42,15 @@ try:
                 dev = devices[words[1]]    
                 if (words[2] == 'addCmd'):
                     dev.addCmd(words[2])
-                if (words[2] == 'delCmd'):
+                elif (words[2] == 'delCmd'):
                     dev.delCmd(words[2])
-                if (words[2] == 'showCmd'):
+                elif (words[2] == 'showCmd'):
                     dev.showCmd()
-                if (words[2] == 'showCmd'):
+                elif (words[2] == 'reset'):
                     dev.reset()
+                else:
+                    print('Unknown method: ' + words[2])
+                    continue
                     
             elif (words[0] == 'send'):
                 if (words[1] not in devices):
