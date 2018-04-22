@@ -85,7 +85,7 @@ GPIO.setup(12, GPIO.OUT)
 GPIO.output(12, GPIO.LOW)
 
 class RS485:
-	def __init__(self, OEPin, baudrate, timeout):
+    def __init__(self, OEPin, baudrate, timeout):
         self.__ser = serial.Serial('/dev/ttyS0')
         self.__ser.baudrate = baudrate
         self.__ser.timeout = timeout
