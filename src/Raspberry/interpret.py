@@ -11,12 +11,12 @@ import pyhouse
 devices = {}
 def showUsage():
     print('''Usage: add name address - use to add new device
-		                del name - use to remove device
-										devices - list of devices
-										call {addCmd CMD} | {delCmd CMD} | reset | showCmd | getAddr - call device method
-										send device {remote device} function [parameter] - send CMD
-										C^c, C^d - exit
-										help - show usage''')
+                    del name - use to remove device
+                    devices - list of devices
+                    call {addCmd CMD} | {delCmd CMD} | reset | showCmd | getAddr - call device method
+                    send device {remote device} function [parameter] - send CMD
+                    C^c, C^d - exit
+                    help - show usage''')
 showUsage()
 try:
     while True:
