@@ -103,7 +103,7 @@ class RS485:
         return data
         
     def clearInput(self):
-        self.__ser.reset_input_buffer()
+        self.__ser.flushInput()
         
 class CRC:
     def __init__(self):
