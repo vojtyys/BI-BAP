@@ -45,7 +45,7 @@ try:
                 elif (words[2] == 'delCmd'):
                     dev.delCmd(words[3])
                 elif (words[2] == 'showCmd'):
-                    dev.showCmd()
+                    print(str(dev.showCmd()))
                 elif (words[2] == 'reset'):
                     dev.reset()
                 else:
@@ -60,6 +60,8 @@ try:
                 if(len(words) == 4):
                     dev.sendCmd(words[2], words[3])
                 elif (len(words) == 5):
+                    if (not words[4].isDigit()):
+                        print('Parameter is not number: ' + words[4])
                     dev.sendCmd(words[2], words[3], int(words[4]))                
                 else:
                     print('Invalid count of parameters')
