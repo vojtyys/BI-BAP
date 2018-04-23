@@ -25,7 +25,11 @@ cmds = {'light' : {'cmd'        : 1,
 
                    'timeoff'    : {'par'       : True,
                                    'time'      : True,
-                                   'cmd'       : 4}},
+                                   'cmd'       : 4},
+                                   
+                   'autoon'     : {'par'       : False,
+                                   'time'      : False,
+                                   'cmd'       : 5}},
 
       'socket' : {'cmd'         : 2,
     
