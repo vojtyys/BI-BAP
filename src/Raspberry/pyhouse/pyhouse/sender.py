@@ -29,7 +29,11 @@ cmds = {'light1' : {'cmd'        : 1,
                                    
                     'autoon'     : {'par'       : False,
                                     'time'      : False,
-                                    'cmd'       : 5}},
+                                    'cmd'       : 5},
+                                    
+                    'cancel'     : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 6}},
 
         'light2' : {'cmd'        : 2,
    
@@ -55,7 +59,11 @@ cmds = {'light1' : {'cmd'        : 1,
                                    
                     'autoon'     : {'par'       : False,
                                     'time'      : False,
-                                    'cmd'       : 5}},
+                                    'cmd'       : 5},
+                                    
+                    'cancel'     : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 6}},
 
 
       'socket1' : {'cmd'         : 3,
@@ -74,7 +82,11 @@ cmds = {'light1' : {'cmd'        : 1,
 		    
                   'timeoff'      : {'par'       : True,
                                     'time'      : True,
-                                    'cmd'       : 3}},
+                                    'cmd'       : 3},
+                                    
+                  'cancel'       : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 4}},                 
                                     
       'socket2' : {'cmd'         : 4,
     
@@ -92,7 +104,11 @@ cmds = {'light1' : {'cmd'        : 1,
 		    
                   'timeoff'      : {'par'       : True,
                                     'time'      : True,
-                                    'cmd'       : 3}},
+                                    'cmd'       : 3},
+                                    
+                  'cancel'       : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 4}},   
                                     
       'socket3' : {'cmd'         : 5,
     
@@ -110,7 +126,11 @@ cmds = {'light1' : {'cmd'        : 1,
 		    
                   'timeoff'      : {'par'       : True,
                                     'time'      : True,
-                                    'cmd'       : 3}},
+                                    'cmd'       : 3},
+                                    
+                  'cancel'       : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 4}},   
                                     
       'socket4' : {'cmd'         : 6,
     
@@ -128,7 +148,11 @@ cmds = {'light1' : {'cmd'        : 1,
 		    
                   'timeoff'      : {'par'       : True,
                                     'time'      : True,
-                                    'cmd'       : 3}},
+                                    'cmd'       : 3},
+                                    
+                  'cancel'       : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 4}},   
 	
       'boiler' : {'cmd'         : 7,
 		    
