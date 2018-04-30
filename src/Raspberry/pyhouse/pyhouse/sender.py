@@ -181,10 +181,11 @@ cmds = {'light1' : {'cmd'        : 1,
        
        }
 
-GPIO.cleanup()
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(12, GPIO.OUT)
 GPIO.output(12, GPIO.LOW)
+
 
 class RS485:
     def __init__(self, OEPin, baudrate, timeout):
