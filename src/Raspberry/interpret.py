@@ -69,9 +69,9 @@ try:
                         continue
                     try:
                         dev.sendCmd(words[2], words[3], int(words[4]))
-										except OverflowError:
-										    print ('Parameter out of range')
-												continue                
+                    except OverflowError:
+                        print ('Parameter out of range')
+                        continue                
                 else:
                     print('Invalid count of parameters')
             else:
