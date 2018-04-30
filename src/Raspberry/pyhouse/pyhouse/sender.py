@@ -230,7 +230,6 @@ class Device:
         self.__addr = addr
         self.__ser = RS485(12, 9600, 1)
         self.__crc = CRC()
-        self.__cmds = {}
         self.reset()
     
         
@@ -240,7 +239,7 @@ class Device:
                 print('Device, function or parameter was not recognized.')
                 return True
     
-            data = self.__addr.to_bytes(1, 'big') + self.__cnt.to_bytes(1, 'big') + self.__cmds[dev]['cmd'].to_bytes(1, 'big') + self.__cmds[dev][func]['cmd'].to_bytes(1, 'big')
+            data = self.__addr.to_bytes(1, 'big') + self.__cnt.to_bytes(1, 'big') + cmds[dev]['cmd'].to_bytes(1, 'big') + cmds[dev][func]['cmd'].to_bytes(1, 'big')
             if (self.__hasParam(dev, func)):                                                    
                 if (self.__hasTimeParam(dev, func)):                                        
                     data = data + param.to_bytes(2, 'big')                                   
@@ -273,27 +272,11 @@ class Device:
                         self.__cnt = (self.__cnt + 1) % 256
                         return True
             
-    def addCmd(self, cmd):
-        if (cmd not in cmds):
-            print('Unknown command ' + cmd)
-            return
-        self.__cmds[cmd] = cmds[cmd]
-        
-    def delCmd(self, cmd):
-        if (cmd not in self.__cmds):
-            print('Cannot delete, CMD: ' + cmd + ' was nt added.')
-            return
-        del self.__cmds[cmd]
-        
+   
     def reset(self):
         self.sendCmd('reset')
         self.__cnt = 0
         
-    def showCmd(self):
-        list = []
-        for key in self.__cmds:
-            list.append(key)
-        return list
     def getAddr(self):
         return self.__addr
     
@@ -313,18 +296,18 @@ class Device:
             return False
     
     def __checkCmd(self, dev, func, param):
-        if (dev not in self.__cmds):
+        if (dev not in cmds):
             return False
-        if (func not in self.__cmds[dev]):
+        if (func not in cmds[dev]):
             return False
-        if (param == None and self.__cmds[dev][func]['par']):
+        if (param == None and cmds[dev][func]['par']):
             return False
-        if (param != None and not self.__cmds[dev][func]['par']):
+        if (param != None and not cmds[dev][func]['par']):
             return False
         return True
     
     def __hasParam(self, dev, func):
-        return self.__cmds[dev][func]['par']
+        return cmds[dev][func]['par']
     
     def __hasTimeParam(self, dev, func):
-        return self.__cmds[dev][func]['time']
+        return cmds[dev][func]['time']
