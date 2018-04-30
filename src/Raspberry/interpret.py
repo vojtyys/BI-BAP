@@ -13,7 +13,7 @@ def showUsage():
     print('''             Usage: add name address - use to add new device
                     del name - use to remove device
                     devices - list of devices
-                    call name {addCmd CMD} | {delCmd CMD} | reset | showCmd | getAddr - call device method
+                    reset - reset communication
                     send name remote_device function [parameter] - send CMD
                     C^c, C^d - exit
                     help - show usage''')
@@ -48,23 +48,13 @@ try:
                 del devices[words[1]]
                 print(words[1] + ' removed')
                 
-            elif(words[0] == 'call'):
+            elif(words[0] == 'reset'):
                 if (words[1] not in devices):
                     print('Device does not exists: ' + words[1])
                     continue
                     
                 dev = devices[words[1]]    
-                if (words[2] == 'addCmd'):
-                    dev.addCmd(words[3])
-                elif (words[2] == 'delCmd'):
-                    dev.delCmd(words[3])
-                elif (words[2] == 'showCmd'):
-                    print(str(dev.showCmd()))
-                elif (words[2] == 'reset'):
-                    dev.reset()
-                else:
-                    print('Unknown method: ' + words[2])
-                    continue
+                dev.reset()
 										    
             elif (words[0] == 'send'):
                 if (words[1] not in devices):
@@ -77,7 +67,11 @@ try:
                     if (not words[4].isdecimal()):
                         print('Parameter is not number: ' + words[4])
                         continue
-                    dev.sendCmd(words[2], words[3], int(words[4]))                
+                    try:
+                        dev.sendCmd(words[2], words[3], int(words[4]))
+										except OverflowError:
+										    print ('Parameter out of range')
+												continue                
                 else:
                     print('Invalid count of parameters')
             else:
