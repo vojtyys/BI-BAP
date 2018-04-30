@@ -5,51 +5,132 @@ import serial
 import RPi.GPIO as GPIO
 import crcmod
 
-cmds = {'light' : {'cmd'        : 1,
+cmds = {'light1' : {'cmd'        : 1,
    
-                   'on'         : {'par'       : False,
-                                   'time'      : False,
-                                   'cmd'       : 0},
+                    'on'         : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 0},
        
-                   'off'        : {'par'       : False,
-                                   'time'      : False,
-                                   'cmd'       : 1},
+                    'off'        : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 1},
    
-                   'dim'        : {'par'       : True,
-                                   'time'      : False,
-                                   'cmd'       : 2},
+                    'dim'        : {'par'       : True,
+                                    'time'      : False,
+                                    'cmd'       : 2},
    
-                   'timeon'     : {'par'       : True,
-                                   'time'      : True,
-                                   'cmd'       : 3},
+                    'timeon'     : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 3},
 
-                   'timeoff'    : {'par'       : True,
-                                   'time'      : True,
-                                   'cmd'       : 4},
+                    'timeoff'    : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 4},
                                    
-                   'autoon'     : {'par'       : False,
-                                   'time'      : False,
-                                   'cmd'       : 5}},
+                    'autoon'     : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 5}},
 
-      'socket' : {'cmd'         : 2,
+        'light2' : {'cmd'        : 2,
+   
+                    'on'         : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 0},
+       
+                    'off'        : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 1},
+   
+                    'dim'        : {'par'       : True,
+                                    'time'      : False,
+                                    'cmd'       : 2},
+   
+                    'timeon'     : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 3},
+
+                    'timeoff'    : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 4},
+                                   
+                    'autoon'     : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 5}},
+
+
+      'socket1' : {'cmd'         : 3,
     
-                  'on'          : {'par'       : False,
-                                   'time'      : False,
-                                   'cmd'       : 0},
+                   'on'          : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 0},
     
-                  'off'         : {'par'       : False,
-                                   'time'      : False,
-                                   'cmd'       : 1},
+                   'off'         : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 1},
      
-                 'timeon'       : {'par'       : True,
-                                   'time'      : True,
-                                   'cmd'       : 2},
+                  'timeon'       : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 2},
 		    
-                 'timeoff'      : {'par'       : True,
-                                   'time'      : True,
-                                   'cmd'       : 3}},
+                  'timeoff'      : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 3}},
+                                    
+      'socket2' : {'cmd'         : 4,
+    
+                   'on'          : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 0},
+    
+                   'off'         : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 1},
+     
+                  'timeon'       : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 2},
+		    
+                  'timeoff'      : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 3}},
+                                    
+      'socket3' : {'cmd'         : 5,
+    
+                   'on'          : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 0},
+    
+                   'off'         : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 1},
+     
+                  'timeon'       : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 2},
+		    
+                  'timeoff'      : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 3}},
+                                    
+      'socket4' : {'cmd'         : 6,
+    
+                   'on'          : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 0},
+    
+                   'off'         : {'par'       : False,
+                                    'time'      : False,
+                                    'cmd'       : 1},
+     
+                  'timeon'       : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 2},
+		    
+                  'timeoff'      : {'par'       : True,
+                                    'time'      : True,
+                                    'cmd'       : 3}},
 	
-      'boiler' : {'cmd'         : 3,
+      'boiler' : {'cmd'         : 7,
 		    
                   'temp'        : {'par'       : True,
                                    'time'      : False,
@@ -63,7 +144,7 @@ cmds = {'light' : {'cmd'        : 1,
                                    'time'      : False,
                                    'cmd'       : 2}},
 	
-      'window' : {'cmd'         : 4,
+      'window' : {'cmd'         : 8,
      
                   'open'        : {'par'       : False,
                                    'time'      : False,
@@ -71,17 +152,9 @@ cmds = {'light' : {'cmd'        : 1,
 		    
                   'close'       : {'par'       : False,
                                    'time'      : False,
-                                   'cmd'       : 1}},
-	
-        'led' : {'cmd'          : 5,
-		    
-                 'on'           : {'par'       : False,
-                                   'time'      : False,
-                                   'cmd'       : 0},
-		    
-                 'off'          : {'par'       : False,
-                                   'time'      : False,
                                    'cmd'       : 1}}
+	
+       
        }
 
 GPIO.setmode(GPIO.BOARD)
