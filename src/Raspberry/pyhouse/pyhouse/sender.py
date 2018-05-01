@@ -278,7 +278,6 @@ class Device:
                         return False
     
                     if (not self.__checkAck()): #ack nepřišlo nebo přišla poškozená data  
-                        time.sleep(1) #čekání s novým odesláním 1s, pokud byla data porušená rušením, možná mezitím odezní
                         #print('Sending CMD again: ' + str(data))
                         self.__ser.sendData(data) #posílání zprávy znovu
                         attempts = attempts - 1
