@@ -74,7 +74,10 @@ try:
                     continue
                     
                 dev = devices[words[1]]    
-                dev.reset()
+                if (not dev.reset()):
+                    print('Cannot send reset CMD')
+                else:
+                    print('ok')
                         
             #odeslání příkazu                    
             elif (words[0] == 'send'):
