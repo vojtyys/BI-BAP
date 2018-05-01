@@ -55,18 +55,18 @@ try:
                 devices[words[1]] = dev
                 print(words[1] + ' added')
             
-						#odebrání modulu    
+            #odebrání modulu    
             elif (words[0] == 'del'):
                 #modulu neexistuje
                 if(words[1] not in devices):
                     print('Device does not exists: ' + words[1])
                     continue
                 
-								#odebrání    
+                #odebrání    
                 del devices[words[1]]
                 print(words[1] + ' removed')
             
-						#provedení reset příkazu    
+            #provedení reset příkazu    
             elif(words[0] == 'reset'):
                 #modul neexistuje
                 if (words[1] not in devices):
@@ -75,8 +75,8 @@ try:
                     
                 dev = devices[words[1]]    
                 dev.reset()
-						
-						#odeslání příkazu				    
+                        
+            #odeslání příkazu                    
             elif (words[0] == 'send'):
                 #modul neexistuje
                 if (words[1] not in devices):
@@ -106,7 +106,7 @@ try:
                 else:
                     print('Invalid count of parameters')
             
-						#nerozpoznáno klíčové slovo        
+           #nerozpoznáno klíčové slovo        
             else:
                 print('Unknow command: ' + words[0])
         #pokus o přístup k chybějícím slovům       

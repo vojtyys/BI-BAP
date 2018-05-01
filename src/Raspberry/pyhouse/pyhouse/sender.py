@@ -80,7 +80,7 @@ cmds = {'light1' : {'cmd'        : 1,
                   'timeon'       : {'par'       : True,
                                     'time'      : True,
                                     'cmd'       : 2},
-		    
+        
                   'timeoff'      : {'par'       : True,
                                     'time'      : True,
                                     'cmd'       : 3},
@@ -102,7 +102,7 @@ cmds = {'light1' : {'cmd'        : 1,
                   'timeon'       : {'par'       : True,
                                     'time'      : True,
                                     'cmd'       : 2},
-		    
+        
                   'timeoff'      : {'par'       : True,
                                     'time'      : True,
                                     'cmd'       : 3},
@@ -124,7 +124,7 @@ cmds = {'light1' : {'cmd'        : 1,
                   'timeon'       : {'par'       : True,
                                     'time'      : True,
                                     'cmd'       : 2},
-		    
+        
                   'timeoff'      : {'par'       : True,
                                     'time'      : True,
                                     'cmd'       : 3},
@@ -146,7 +146,7 @@ cmds = {'light1' : {'cmd'        : 1,
                   'timeon'       : {'par'       : True,
                                     'time'      : True,
                                     'cmd'       : 2},
-		    
+        
                   'timeoff'      : {'par'       : True,
                                     'time'      : True,
                                     'cmd'       : 3},
@@ -154,13 +154,13 @@ cmds = {'light1' : {'cmd'        : 1,
                   'cancel'       : {'par'       : False,
                                     'time'      : False,
                                     'cmd'       : 4}},   
-	
+  
       'boiler' : {'cmd'         : 7,
-		    
+        
                   'temp'        : {'par'       : True,
                                    'time'      : False,
                                    'cmd'       : 0},
-		    
+        
                   'on'          : {'par'       : False,
                                    'time'      : False,
                                    'cmd'       : 1},
@@ -168,17 +168,17 @@ cmds = {'light1' : {'cmd'        : 1,
                   'off'         : {'par'       : False,
                                    'time'      : False,
                                    'cmd'       : 2}},
-	
+  
       'window' : {'cmd'         : 8,
      
                   'open'        : {'par'       : False,
                                    'time'      : False,
                                    'cmd'       : 0},
-		    
+        
                   'close'       : {'par'       : False,
                                    'time'      : False,
                                    'cmd'       : 1}}
-	
+  
        
        }
 #nastavení enable pinu pro ovládání směru komunikace po RS485
@@ -203,12 +203,12 @@ class RS485:
         self.__ser.flush()
         GPIO.output(self.__OE, GPIO.LOW)
     
-		#meoda pro čtení příchozích dat, parametr int cnt - počet dat k přijetí v B    
+    #meoda pro čtení příchozích dat, parametr int cnt - počet dat k přijetí v B    
     def getData(self, cnt):
         data = self.__ser.read(cnt)
         return data
     
-		#metoda pro vyčištění příchozího bufferu    
+    #metoda pro vyčištění příchozího bufferu    
     def clearInput(self):
         self.__ser.flushInput()
 
@@ -223,7 +223,7 @@ class CRC:
         crc = crc.to_bytes(2, 'big')
         return crc
 
-		#kontroluje CRC přijatých dat, parametrem jsou přijatá data typu byte obsahující CRC, vrací true/false
+    #kontroluje CRC přijatých dat, parametrem jsou přijatá data typu byte obsahující CRC, vrací true/false
     def checkCrc(self, data):
         crc = self.getCrc(data[0:6])
         tmp = data[6:]
@@ -250,7 +250,7 @@ class Device:
             #připojí se adresa cílové jednotky, číslo paketu, zařízení a funkce
             data = self.__addr.to_bytes(1, 'big') + self.__cnt.to_bytes(1, 'big') + cmds[dev]['cmd'].to_bytes(1, 'big') + cmds[dev][func]['cmd'].to_bytes(1, 'big')
             #pokud funkce přijímá parametry, připojí se
-						if (self.__hasParam(dev, func)):                                                    
+            if (self.__hasParam(dev, func)):                                                    
                 if (self.__hasTimeParam(dev, func)):  #připojení 2B časového parametru                                      
                     data = data + param.to_bytes(2, 'big')                                   
                 else:   #připojení 1B parametru
@@ -260,7 +260,7 @@ class Device:
         else: #vytvoření reset příkazu
             data = self.__addr.to_bytes(1, 'big') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00 00 00 00')
          
-				#připojení CRC    
+        #připojení CRC    
         data = data + self.__crc.getCrc(data)
     
         #pokud po sběrnici přišlo něco nečekaného, například při debugování univerzálních modulů přes sériovou linku, je to ignorováno
@@ -293,13 +293,13 @@ class Device:
             self.__cnt = 0
         return ret
     
-		#vrací int adresu univerzáního modulu    
+    #vrací int adresu univerzáního modulu    
     def getAddr(self):
         return self.__addr
     
     #kontrola potvrzovacího paketu, vrací true, pokud je v pořádku, jinak false
     def __checkAck(self): 
-		    #vytvoření očekávané zprávy k porovnání       
+        #vytvoření očekávané zprávy k porovnání       
         expectedAck = bytes.fromhex('00') + self.__cnt.to_bytes(1, 'big') + bytes.fromhex('00') + self.__addr.to_bytes(1, 'big') + bytes.fromhex('00 00')    
         expectedAck = expectedAck + self.__crc.getCrc(expectedAck)
         
