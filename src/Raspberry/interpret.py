@@ -90,7 +90,7 @@ try:
                 if(len(words) == 4):
                     try:
                         if(not dev.sendCmd(words[2], words[3])):
-                            print('CMD sending unsuccessfull')
+                            print('Cannot send cmd')
                     except Exception as e:
                         print(e.args[0])
                         continue
