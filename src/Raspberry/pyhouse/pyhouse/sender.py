@@ -237,7 +237,7 @@ class Device:
     def __init__(self, addr):
         self.__cnt = 0
         self.__addr = addr
-        self.__ser = RS485(12, 9600, 1)
+        self.__ser = RS485(9600, 1)
         self.__crc = CRC()
         self.reset()
     
