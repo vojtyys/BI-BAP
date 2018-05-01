@@ -97,7 +97,7 @@ try:
                 #přečteno 5 slov, je to send modul dev func param, pokud ne sendCmd vyhodí vyjímku  
                 elif (len(words) == 5):
                     try:
-                        if(not dev.sendCmd(words[2], words[3], int(words[4]))):
+                        if(not dev.sendCmd(words[2], words[3], words[4])):
                             print('CMD sending unsuccessfull')
                     except Exception as e:
                         print(e.args[0]) 
