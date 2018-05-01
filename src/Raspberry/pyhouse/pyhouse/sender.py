@@ -239,7 +239,6 @@ class Device:
         self.__addr = addr
         self.__ser = RS485(9600, 1)
         self.__crc = CRC()
-        self.reset()
     
      #metoda pro odeslání CMD, parametry jsou: str dev - nazev ovladaneho zarizeni, str func - název funkce k provedeni, int param - parametr funkce   
     def sendCmd(self, dev, func=None, param=None):
