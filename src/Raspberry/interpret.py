@@ -97,7 +97,7 @@ try:
                 #přečteno 5 slov, je to send modul dev func param, pokud ne sendCmd vyhodí vyjímku  
                 elif (len(words) == 5):
                     #kontrola, jestli je parametr číslo
-                    if (not words[4].isnumeric()):
+                    if (not words[4].lstrip('-+').isdecimal()):
                         print('Parameter is not a number')
                         continue
                     try:
