@@ -11,6 +11,8 @@ import pyhouse
 
 a = pyhouse.Device(1)
 b = pyhouse.Device(2)
+a.reset()
+b.reset()
 
 a.sendCmd('light1', 'on')
 time.sleep(5)
