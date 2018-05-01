@@ -102,7 +102,7 @@ try:
                         continue
                     try:
                         if(not dev.sendCmd(words[2], words[3], int(words[4]))):
-                            print('CMD sending unsuccessfull')
+                            print('Cannot send cmd')
                     except Exception as e:
                         print(e.args[0]) 
                         continue
