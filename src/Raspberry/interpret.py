@@ -94,6 +94,8 @@ try:
                     try:
                         if(not dev.sendCmd(words[2], words[3])):
                             print('Cannot send cmd')
+                        else:
+                            print('ok')
                     except Exception as e:
                         print(e.args[0])
                         continue
@@ -106,6 +108,8 @@ try:
                     try:
                         if(not dev.sendCmd(words[2], words[3], int(words[4]))):
                             print('Cannot send cmd')
+                        else:
+                            print('ok')
                     except Exception as e:
                         print(e.args[0]) 
                         continue
