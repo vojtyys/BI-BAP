@@ -9,10 +9,34 @@ devices = {}
 #funkce pro zobrazení použití
 def showUsage():
     print('''             Usage: add name address - use to add new device
+                        name should be choosed by user,
+                        address is address of remote device 
                     del name - use to remove device
-                    devices - list of devices
-                    reset - reset communication
-                    send name remote_device function [parameter] - send CMD
+                        name is name used by add command
+                    devices - list of added devices
+                    reset name - reset packet counters local and on remote device
+                        name is name used by add command
+                    send name remote_device function [parameter] - send CMD packet to remote device
+                        name is name of remote device added by add command
+                        remote_device should be light1, light2, socket1, socket2, socket3, socket4, window or boiler
+                        function depends on choosen remote_device
+                            lightX has:  on - turn on light, without parameter
+                                         off - turn off light, without parameter
+                                         dim - set light intensity as parameter in range 0-255
+                                         timeon - turn on light after N seconds, passed as parameter in range 0-65535
+                                         timeoff - turn off light after N seconds, passed as parameter in range 0-65535
+                                         autoon - turn on light when room become dark
+                                         cancel - cancel sheduled timeon, timeoff and autoon
+                            socketX has: on - turn on socket
+                                         off - turn off socket
+                                         timeon - turn on socket after N seconds, passed as parameter in range 0-65535
+                                         timeoff - turn off socket after N seconds, passed as parameter in range 0-65535
+                                         cancel - cancel sheduled timeon and timeoff
+                            window has:  open - to open window
+                                         close - to close window
+                            boiler has:  temp - set target room temperature, passed as parameter in range 0-255
+                                         on - start holding target temperature
+                                         off - stop holding target temperature 
                     C^c, C^d - exit
                     help - show usage''')
 #na počátku je vypsáno jak interpretr používat                    
