@@ -3,10 +3,6 @@
 import os
 import sys
 import time
-
-#připojení modulu pyhouse do systémové cesty, aby mohl být importován
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
 import pyhouse
 
 a = pyhouse.Device(1)
@@ -38,5 +34,4 @@ b.sendCmd('boiler', 'temp', 0)
 
 
 print('\nTerminating program...\n')
-sys.path.remove(os.path.dirname(os.path.abspath(__file__)))
 exit(0)

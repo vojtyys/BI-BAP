@@ -2,10 +2,6 @@
 
 import os
 import sys
-
-#připojení modulu pyhouse do systémové cesty, aby mohl být importován
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
 import pyhouse
 
 #slovník zařízení pro jejich přidávání, odebírání a ovládání
@@ -126,8 +122,6 @@ try:
 
 #ukončení pomocí c^c nebo c^d a odebrání modulu pyhouse ze systémové cesty
 except KeyboardInterrupt:
-    sys.path.remove(os.path.dirname(os.path.abspath(__file__)))
     exit(0)
 except EOFError:
-    sys.path.remove(os.path.dirname(os.path.abspath(__file__)))
     exit(0)
