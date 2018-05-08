@@ -31,7 +31,7 @@ print('Light2 full on')
 if(not a.sendCmd('light2', 'on')):
     commandFailed()
     
-time.sleep(5)
+time.sleep(10)
 
 print('Light1 full off')
 if(not a.sendCmd('light1', 'off')):
@@ -41,7 +41,7 @@ print('Light2 full off')
 if(not a.sendCmd('light2', 'off')):
     commandFailed()
     
-time.sleep(5)
+time.sleep(10)
 
 print('Light1 dim 10 - light should stay off')
 if(not a.sendCmd('light1', 'dim', 10)):
@@ -51,7 +51,7 @@ print('Light2 dim 10 - light should stay off')
 if(not a.sendCmd('light2', 'dim', 10)):
     commandFailed()
     
-time.sleep(5)
+time.sleep(10)
 
 print('Light1 on - light should turn on and set dim level 10')
 if(not a.sendCmd('light1', 'on')):
