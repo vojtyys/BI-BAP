@@ -24,65 +24,65 @@ if(not a.reset()):
     fail()
     
 print('Light1 full on')
-if(a.sendCmd('light1', 'on')):
+if(not a.sendCmd('light1', 'on')):
     commandFailed()
 
 print('Light2 full on')
-if(a.sendCmd('light2', 'on')):
+if(not a.sendCmd('light2', 'on')):
     commandFailed()
     
 time.sleep(5)
 
 print('Light1 full off')
-if(a.sendCmd('light1', 'off')):
+if(not a.sendCmd('light1', 'off')):
     commandFailed()
 
 print('Light2 full off')
-if(a.sendCmd('light2', 'off')):
+if(not a.sendCmd('light2', 'off')):
     commandFailed()
     
 time.sleep(5)
 
 print('Light1 dim 10 - light should stay off')
-if(a.sendCmd('light1', 'dim', 10)):
+if(not a.sendCmd('light1', 'dim', 10)):
     commandFailed()
 
 print('Light2 dim 10 - light should stay off')
-if(a.sendCmd('light2', 'dim', 10)):
+if(not a.sendCmd('light2', 'dim', 10)):
     commandFailed()
     
 time.sleep(5)
 
 print('Light1 on - light should turn on and set dim level 10')
-if(a.sendCmd('light1', 'on')):
+if(not a.sendCmd('light1', 'on')):
     commandFailed()
 
 print('Light2 on - light should turn on and set dim level 10')
-if(a.sendCmd('light2', 'on')):
+if(not a.sendCmd('light2', 'on')):
     commandFailed()
     
 time.sleep(5)
 
 print('Light1 full off')
-if(a.sendCmd('light1', 'off')):
+if(not a.sendCmd('light1', 'off')):
     commandFailed()
 
 print('Light2 full off')
-if(a.sendCmd('light2', 'off')):
+if(not a.sendCmd('light2', 'off')):
     commandFailed()
     
 time.sleep(5)
 
 print('Light1 time test - light should turn on after 10 s and turn off after another 5 s')
-if(a.sendCmd('light1', 'timeon', 10)):
+if(not a.sendCmd('light1', 'timeon', 10)):
     commandFailed()
-if(a.sendCmd('light1', 'timeoff', 15)):
+if(not a.sendCmd('light1', 'timeoff', 15)):
     commandFailed()
 
 print('Light2 time test - light should turn on after 10 s and turn off after another 5 s')
-if(a.sendCmd('light2', 'timeon', 10)):
+if(not a.sendCmd('light2', 'timeon', 10)):
     commandFailed()
-if(a.sendCmd('light2', 'timeoff', 15)):
+if(not a.sendCmd('light2', 'timeoff', 15)):
     commandFailed()
     
 time.sleep(9)
@@ -92,9 +92,9 @@ print('Lights should turn off now')
 
 time.sleep(5)
 print('Autoon test - cover BH1750 sensor by hand, lights should turn on in 30 s')
-if(a.sendCmd('light1', 'autoon')):
+if(not a.sendCmd('light1', 'autoon')):
     commandFailed()
-if(a.sendCmd('light2', 'autoon')):
+if(not a.sendCmd('light2', 'autoon')):
     commandFailed()
 
 time.sleep(29)
