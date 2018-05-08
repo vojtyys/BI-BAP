@@ -85,9 +85,9 @@ if(not a.sendCmd('light2', 'timeon', 10)):
 if(not a.sendCmd('light2', 'timeoff', 15)):
     commandFailed()
     
-time.sleep(9)
+time.sleep(10)
 print('Lights should turn on now')
-time.sleep(4)
+time.sleep(5)
 print('Lights should turn off now')
 
 time.sleep(5)
@@ -97,7 +97,7 @@ if(not a.sendCmd('light1', 'autoon')):
 if(not a.sendCmd('light2', 'autoon')):
     commandFailed()
 
-time.sleep(29)
+time.sleep(30)
 print('Lights should be turned on')
 print("Lights test completed, try light buttons functionality.")
 exit(0)
