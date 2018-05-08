@@ -113,13 +113,13 @@ if(not a.sendCmd('light2', 'off')):
 print('Light1 will be set to timeon in 10 s and this will be canceled by cancel function')
 if(not a.sendCmd('light1', 'timeon', 10)):
     commandFailed()
-if(not a.sendCmd('light1', 'cancel', 10)):
+if(not a.sendCmd('light1', 'cancel')):
     commandFailed()
 		
 print('Light2 will be set to timeon in 10 s and this will be canceled by cancel function')
 if(not a.sendCmd('light2', 'timeon', 10)):
     commandFailed()
-if(not a.sendCmd('light2', 'cancel', 10)):
+if(not a.sendCmd('light2', 'cancel')):
     commandFailed()
 		
 time.sleep(10)
@@ -127,7 +127,7 @@ print('Lights should not turn on now')
 
 time.sleep(5)
 
-print('Light1 on)
+print('Light1 on')
 if(not a.sendCmd('light1', 'on')):
     commandFailed()
 
@@ -138,13 +138,13 @@ if(not a.sendCmd('light2', 'on')):
 print('Light1 will be set to timeoff in 10 s and this will be canceled by cancel function')
 if(not a.sendCmd('light1', 'timeoff', 10)):
     commandFailed()
-if(not a.sendCmd('light1', 'cancel', 10)):
+if(not a.sendCmd('light1', 'cancel')):
     commandFailed()
 		
 print('Light2 will be set to timeoff in 10 s and this will be canceled by cancel function')
 if(not a.sendCmd('light2', 'timeoff', 10)):
     commandFailed()
-if(not a.sendCmd('light2', 'cancel', 10)):
+if(not a.sendCmd('light2', 'cancel')):
     commandFailed()
 		
 time.sleep(10)
@@ -166,11 +166,11 @@ time.sleep(5)
 print('Autoon cancel - cover BH1750 sensor by hand, lights should not turn on in 30 s')
 if(not a.sendCmd('light1', 'autoon')):
     commandFailed()
-if(not a.sendCmd('light1', 'cancel', 10)):
+if(not a.sendCmd('light1', 'cancel')):
     commandFailed()
 if(not a.sendCmd('light2', 'autoon')):
     commandFailed()
-if(not a.sendCmd('light2', 'cancel', 10)):
+if(not a.sendCmd('light2', 'cancel')):
     commandFailed()
     
 
