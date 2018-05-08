@@ -70,6 +70,66 @@ time.sleep(10)
 print('Sockets should be on now')
 time.sleep(5)
 print('Sockets should be off now') 
+
+time.sleep(5)
+
+print('Time cancel test - sockets should not turn on after 10 s because it was canceled by cancel')
+if(not a.sendCmd('socket1', 'timeon', 10)):
+    commandFailed()
+if(not a.sendCmd('socket2', 'timeon', 10)):
+    commandFailed()
+if(not a.sendCmd('socket3', 'timeon', 10)):
+    commandFailed()
+if(not a.sendCmd('socket4', 'timeon', 10)):
+    commandFailed()
+
+if(not a.sendCmd('socket1', 'cancel')):
+    commandFailed()
+if(not a.sendCmd('socket2', 'cancel')):
+    commandFailed()
+if(not a.sendCmd('socket3', 'cancel')):
+    commandFailed()
+if(not a.sendCmd('socket4', 'cancel')):
+    commandFailed()  
+
+time.sleep(10)
+print('Sockets should NOT be on now')
+time.sleep(5)
+
+print('Sockets should turn on')
+if(not a.sendCmd('socket1', 'on')):
+    commandFailed()
+if(not a.sendCmd('socket2', 'on')):
+    commandFailed()
+if(not a.sendCmd('socket3', 'on')):
+    commandFailed()
+if(not a.sendCmd('socket4', 'on')):
+    commandFailed()
+    
+time.sleep(5)
+
+print('Time cancel test - sockets should not turn off after 10 s because it was canceled by cancel')
+if(not a.sendCmd('socket1', 'timeoff', 10)):
+    commandFailed()
+if(not a.sendCmd('socket2', 'timeoff', 10)):
+    commandFailed()
+if(not a.sendCmd('socket3', 'timeoff', 10)):
+    commandFailed()
+if(not a.sendCmd('socket4', 'timeoff', 10)):
+    commandFailed()
+
+if(not a.sendCmd('socket1', 'cancel')):
+    commandFailed()
+if(not a.sendCmd('socket2', 'cancel')):
+    commandFailed()
+if(not a.sendCmd('socket3', 'cancel')):
+    commandFailed()
+if(not a.sendCmd('socket4', 'cancel')):
+    commandFailed()
+
+time.sleep(10)
+print('Sockets should NOT be off now')
+
 time.sleep(1)
 print("Sockets test completed.")
 exit(0)
