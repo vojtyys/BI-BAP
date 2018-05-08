@@ -25,10 +25,10 @@ except Exception as e:
     
 #otevření okna
 if(not a.sendCmd('window', 'open')):
-    print("Cannot send CMD"))
+    print("Cannot send CMD")
     
 #a zavření
 if(not a.sendCmd('window', 'close')):
-    print("Cannot send CMD"))
+    print("Cannot send CMD")
 
 

@@ -47,7 +47,7 @@ if(not a.sendCmd('socket3', 'cancel')):
     print("Cannot send CMD")
 
 #zásuvka 2 se zapne za 650 s
-if(not a.sendCmd('socket2', 'autoon', 650)):
+if(not a.sendCmd('socket2', 'timeon', 650)):
     print("Cannot send CMD")
   
      
