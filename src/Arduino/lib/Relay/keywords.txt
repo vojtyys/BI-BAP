@@ -1,3 +1,0 @@
-Relay	KEYWORD1
-on	KEYWORD2
-off	KEYWORD2
