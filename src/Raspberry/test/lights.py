@@ -10,7 +10,7 @@ ADDR = 1
 
 def fail():
     print("Test failed")
-    sys.exit(0)
+    sys.exit(1)
 
 def commandFailed():
     print('Cannot send command')
@@ -99,6 +99,86 @@ if(not a.sendCmd('light2', 'autoon')):
 
 time.sleep(30)
 print('Lights should be turned on')
+
+time.sleep(5)
+
+print('Light1 full off - light should turn off fully')
+if(not a.sendCmd('light1', 'off')):
+    commandFailed()
+
+print('Light2 full off - light should turn off fully')
+if(not a.sendCmd('light2', 'off')):
+    commandFailed()
+    
+print('Light1 will be set to timeon in 10 s and this will be canceled by cancel function')
+if(not a.sendCmd('light1', 'timeon', 10)):
+    commandFailed()
+if(not a.sendCmd('light1', 'cancel', 10)):
+    commandFailed()
+		
+print('Light2 will be set to timeon in 10 s and this will be canceled by cancel function')
+if(not a.sendCmd('light2', 'timeon', 10)):
+    commandFailed()
+if(not a.sendCmd('light2', 'cancel', 10)):
+    commandFailed()
+		
+time.sleep(10)
+print('Lights should not turn on now') 
+
+time.sleep(5)
+
+print('Light1 on)
+if(not a.sendCmd('light1', 'on')):
+    commandFailed()
+
+print('Light2 on')
+if(not a.sendCmd('light2', 'on')):
+    commandFailed()
+    
+print('Light1 will be set to timeoff in 10 s and this will be canceled by cancel function')
+if(not a.sendCmd('light1', 'timeoff', 10)):
+    commandFailed()
+if(not a.sendCmd('light1', 'cancel', 10)):
+    commandFailed()
+		
+print('Light2 will be set to timeoff in 10 s and this will be canceled by cancel function')
+if(not a.sendCmd('light2', 'timeoff', 10)):
+    commandFailed()
+if(not a.sendCmd('light2', 'cancel', 10)):
+    commandFailed()
+		
+time.sleep(10)
+print('Lights should not turn off now') 
+
+time.sleep(5)
+
+print('Light1 full off - light should turn off fully')
+if(not a.sendCmd('light1', 'off')):
+    commandFailed()
+
+print('Light2 full off - light should turn off fully')
+if(not a.sendCmd('light2', 'off')):
+    commandFailed()
+  
+    
+time.sleep(5)
+
+print('Autoon cancel - cover BH1750 sensor by hand, lights should not turn on in 30 s')
+if(not a.sendCmd('light1', 'autoon')):
+    commandFailed()
+if(not a.sendCmd('light1', 'cancel', 10)):
+    commandFailed()
+if(not a.sendCmd('light2', 'autoon')):
+    commandFailed()
+if(not a.sendCmd('light2', 'cancel', 10)):
+    commandFailed()
+    
+
+		   
+time.sleep(30)
+
+print('Lights should be turned off now')
+
 time.sleep(1)
 print("Lights test completed, try light buttons functionality.")
-exit(0)
+
