@@ -17,7 +17,7 @@ def commandFailed():
     fail()
     
 print('Starting test')
-a = pyhouse.Device(1)
+a = pyhouse.Device(ADDR)
 
 if(not a.reset()):
     print("Connection between devices cannot be established")
@@ -57,19 +57,19 @@ if(not a.sendCmd('socket3', 'timeon', 10)):
 if(not a.sendCmd('socket4', 'timeon', 10)):
     commandFailed()  
     
-if(not a.sendCmd('socket1', 'timeoff', 5)):
+if(not a.sendCmd('socket1', 'timeoff', 15)):
     commandFailed()
-if(not a.sendCmd('socket2', 'timeoff', 5)):
+if(not a.sendCmd('socket2', 'timeoff', 15)):
     commandFailed()
-if(not a.sendCmd('socket3', 'timeoff', 5)):
+if(not a.sendCmd('socket3', 'timeoff', 15)):
     commandFailed()
-if(not a.sendCmd('socket4', 'timeoff', 5)):
+if(not a.sendCmd('socket4', 'timeoff', 15)):
     commandFailed()  
     
-time.sleep(9)
+time.sleep(10)
 print('Sockets should be on now')
-time.sleep(4)
+time.sleep(5)
 print('Sockets should be off now') 
-
+time.sleep(1)
 print("Sockets test completed.")
 exit(0)

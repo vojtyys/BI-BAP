@@ -17,7 +17,7 @@ def commandFailed():
     fail()
     
 print('Starting test')
-a = pyhouse.Device(1)
+a = pyhouse.Device(ADDR)
 
 if(not a.reset()):
     print("Connection between devices cannot be established")
@@ -99,5 +99,6 @@ if(not a.sendCmd('light2', 'autoon')):
 
 time.sleep(30)
 print('Lights should be turned on')
+time.sleep(1)
 print("Lights test completed, try light buttons functionality.")
 exit(0)
