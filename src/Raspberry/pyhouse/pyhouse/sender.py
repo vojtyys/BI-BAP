@@ -6,11 +6,11 @@ import RPi.GPIO as GPIO
 import crcmod
 
 #slovník popisující podporovaná zařízení, jejich funkce, přijímání parametrů a kódování pro odesílání
-cmds = {'light1' : {'cmd'        : 1,
+cmds = {'light1' : {'cmd'        : 1, #kód zařízení
    
-                    'on'         : {'par'       : False,
-                                    'time'      : False,
-                                    'cmd'       : 0},
+                    'on'         : {'par'       : False, #přijímá parametr?
+                                    'time'      : False, #je parametr časový?
+                                    'cmd'       : 0},    #kód funkce
        
                     'off'        : {'par'       : False,
                                     'time'      : False,
@@ -183,34 +183,34 @@ cmds = {'light1' : {'cmd'        : 1,
        }
 #nastavení enable pinu pro ovládání směru komunikace po RS485
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(12, GPIO.OUT)
-GPIO.output(12, GPIO.LOW)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(18, GPIO.OUT) #pin 12
+GPIO.output(18, GPIO.LOW)
 
 #třída pro komunikaci na RS485
 class RS485:
     #konstruktor přijímá int baudrate a int timeout pro čtení dat v s
     def __init__(self, baudrate, timeout):
-        self.__ser = serial.Serial('/dev/ttyS0')   #otevření sériové  linky
-        self.__ser.baudrate = baudrate             #nastavení parametrů
-        self.__ser.timeout = timeout
-        self.__OE = 12
+        self.__serial = serial.Serial('/dev/ttyS0')   #otevření sériové  linky
+        self.__serial.baudrate = baudrate             #nastavení parametrů
+        self.__serial.timeout = timeout
+        self.__OE = 18
         
     # metoda pro odeslání dat, data jsou typu byte
     def sendData(self, data):
         GPIO.output(self.__OE, GPIO.HIGH)
-        self.__ser.write(data)
-        self.__ser.flush()
+        self.__serial.write(data)
+        self.__serial.flush()
         GPIO.output(self.__OE, GPIO.LOW)
     
     #meoda pro čtení příchozích dat, parametr int cnt - počet dat k přijetí v B    
     def getData(self, cnt):
-        data = self.__ser.read(cnt)
+        data = self.__serial.read(cnt)
         return data
     
     #metoda pro vyčištění příchozího bufferu    
     def clearInput(self):
-        self.__ser.flushInput()
+        self.__serial.flushInput()
 
 #třída pro práci s crc        
 class CRC:
@@ -220,13 +220,13 @@ class CRC:
     #vypočítá CRC pro vstupní data typu byte, vrátí vypočítanou hodnotu typu byte
     def getCrc(self, data):
         crc = self.__crc(data)
-        crc = crc.to_bytes(2, 'big')
+        crc = crc.to_bytes(2, 'big')  #self.__crc vrací vypočítanou hodnotu jako int, je nutné ji převést na bytes
         return crc
 
     #kontroluje CRC přijatých dat, parametrem jsou přijatá data typu byte obsahující CRC, vrací true/false
     def checkCrc(self, data):
-        crc = self.getCrc(data[0:6])
-        tmp = data[6:]
+        crc = self.getCrc(data[0:6]) #dělení přijaté zprávy na data
+        tmp = data[6:]               #a CRC
         if (tmp == crc):
             return True
         return False
@@ -237,7 +237,7 @@ class Device:
     def __init__(self, addr):
         self.__cnt = 0
         self.__addr = addr
-        self.__ser = RS485(9600, 1)
+        self.__serial = RS485(9600, 1) #baudrate, timeout
         self.__crc = CRC()
     
      #metoda pro odeslání CMD, parametry jsou: str dev - nazev ovladaneho zarizeni, str func - název funkce k provedeni, int param - parametr funkce   
@@ -263,10 +263,10 @@ class Device:
         data = data + self.__crc.getCrc(data)
     
         #pokud po sběrnici přišlo něco nečekaného, například při debugování univerzálních modulů přes sériovou linku, je to ignorováno
-        self.__ser.clearInput()
+        self.__serial.clearInput()
         #print("Sending cmd: ", end='')
         #print(data)
-        self.__ser.sendData(data)   #odeslání dat
+        self.__serial.sendData(data)   #odeslání dat
     
         #opakování odeslání zprávy, pokud nepřijde platné potvrzení nebo vyprší počet pokusů
         attempts = 9
@@ -278,7 +278,7 @@ class Device:
     
                     if (not self.__checkAck()): #ack nepřišlo nebo přišla poškozená data  
                         #print('Sending CMD again: ' + str(data))
-                        self.__ser.sendData(data) #posílání zprávy znovu
+                        self.__serial.sendData(data) #posílání zprávy znovu
                         attempts = attempts - 1
                     else:
                         self.__cnt = (self.__cnt + 1) % 256   #zpráva odeslána úspěšně, inkrementace čísla zprávy
@@ -302,7 +302,7 @@ class Device:
         expectedAck = expectedAck + self.__crc.getCrc(expectedAck)
         
         #print('Waiting for ACK')
-        ack = self.__ser.getData(8) #čekání na příjem potvrzovacího paketu
+        ack = self.__serial.getData(8) #čekání na příjem potvrzovacího paketu
         #print('Got: ' + str(ack))
         
         if (ack == expectedAck):  #kontrola
