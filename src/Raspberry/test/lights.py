@@ -23,25 +23,25 @@ if(not a.reset()):
     print("Connection between devices cannot be established")
     fail()
     
-print('Light1 full on')
+print('Light1 full on - light should turn on fully')
 if(not a.sendCmd('light1', 'on')):
     commandFailed()
 
-print('Light2 full on')
+print('Light2 full on - light should turn on fully')
 if(not a.sendCmd('light2', 'on')):
     commandFailed()
     
 time.sleep(10)
 
-print('Light1 full off')
+print('Light1 full off - light should turn off fully')
 if(not a.sendCmd('light1', 'off')):
     commandFailed()
 
-print('Light2 full off')
+print('Light2 full off - light should turn off fully')
 if(not a.sendCmd('light2', 'off')):
     commandFailed()
     
-time.sleep(10)
+time.sleep(15)
 
 print('Light1 dim 10 - light should stay off')
 if(not a.sendCmd('light1', 'dim', 10)):
