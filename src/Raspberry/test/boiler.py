@@ -23,7 +23,7 @@ if(not a.reset()):
     print("Connection between devices cannot be established")
     fail()
     
-print('Setting temperapture to 80°C')
+print('Setting temperature to 80°C')
 if(not a.sendCmd('boiler', 'temp', 40)):
     commandFailed()
     
@@ -37,13 +37,16 @@ time.sleep(30)
 print('Boiler should be on now')
 time.sleep(5)
 
-print('Setting temperapture to 0°C --- boiler should turn off in 30 s')
+print('Setting temperature to 0°C --- boiler should turn off in 30 s')
+
+if(not a.sendCmd('boiler', 'temp', 0)):
+    commandFailed()
 
 time.sleep(30)
 print('Boiler should be off now')
 time.sleep(5)
 
-print('Setting temperapture to 80°C and turning off temperapture tracking - boiler should NOT turn on in 30 s')
+print('Setting temperature to 80°C and turning off temperature tracking - boiler should NOT turn on in 30 s')
 
 time.sleep(30)
 print("Boiler test completed")
