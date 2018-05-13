@@ -1,8 +1,15 @@
 #!/bin/bash
-echo "Installing python3, pip3\n"
+echo
+echo "Installing python3, pip3"
+echo
 sudo apt install python3 python3-pip
-echo "Installing setuptools\n"
+echo
+echo "Installing setuptools"
+echo
 sudo pip3 install setuptools
-echo "Installing API\n"
+echo
+echo "Installing API"
+echo
 sudo pip3 install ./pyhouse/
+echo
 echo "Install finished"
