@@ -7,6 +7,7 @@
 #define BR 9
 
 
+//
 SoftwareSerial RS485(RX, TX);
 char recByte;
 enum states {WAIT_ID, CHCK_ID, ACTION};
